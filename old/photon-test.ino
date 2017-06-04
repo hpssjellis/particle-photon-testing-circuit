@@ -20,10 +20,10 @@ String myPinsName[] = {"D0", "D1", "D2", "D3", "D4", "D5", "D6", "D7", "non8","n
 String myDAC1Good = "Bad"; 
 String myDAC2Good = "Bad";   
 
-int myAReadPinNum[] = {A0, A1, A2, A3, A4, A5, A6, A7};
-int myPWMPinNum[]   = {A4, A5, PWK, RX, TX, D0, D1, D2, D3};  //D2,D3 only work if A4,A5 not used for PWM
-String myAReadPinGooD[] = {"Bad", "Bad", "Bad", "Bad", "Bad", "Bad", "Bad", "Bad"};
-String myPWMPinGood[]   = {"Bad", "Bad", "Bad", "Bad", "Bad", "Bad", "Bad", "Bad", "Bad"};  //D2,D3 only work if A4,A5 not used for PWM
+//int myAReadPinNum[] = {A0, A1, A2, A3, A4, A5, A6, A7};
+//int myPWMPinNum[]   = {A4, A5, PWK, RX, TX, D0, D1, D2, D3};  //D2,D3 only work if A4,A5 not used for PWM
+//String myAReadPinGooD[] = {"Bad", "Bad", "Bad", "Bad", "Bad", "Bad", "Bad", "Bad"};
+//String myPWMPinGood[]   = {"Bad", "Bad", "Bad", "Bad", "Bad", "Bad", "Bad", "Bad", "Bad"};  //D2,D3 only work if A4,A5 not used for PWM
                        
                        // D0  0
                     // D7  7
@@ -36,7 +36,7 @@ void setup() {
 
 // Just my testing area
 
-pinMode(30,INPUT);
+//pinMode(30,INPUT);
    // Particle.publish(String(Reset),"Reset button number", 60, PRIVATE);
    // delay(1000);
   // pinMode(8, OUTPUT);
@@ -218,11 +218,5 @@ void loop() {
     
     Particle.publish("---", "---", 60, PRIVATE);
     delay(3000);
-
-}void setup() {
-
-}
-
-void loop() {
 
 }
