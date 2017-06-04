@@ -117,12 +117,14 @@ void myTestAnalogInOut(){
     
     
     // test with A4 output to A0 input
+    // need A4 to LED then resistor to ground
+    // Need Photoresistor circuit on A0 gnd to resistor to A0, photoreistor to 3v3 to A0
       
     int myReadSmall, myReadMedium, myReadBig;
     String myRead1Output, myRead2Output ;
     
     
-    pinMode(A4, OUTPUT);    // DAC1 = A6 for output
+    pinMode(A4, OUTPUT);   
     analogWrite(A4, 50);    
     myReadSmall = analogRead(A0);
     analogWrite(A4, 150);    
@@ -135,9 +137,9 @@ void myTestAnalogInOut(){
         myPWMA4 = "Good";
     }
   
-    Particle.publish("AnalogWrite DAC1 AnalogRead A1", myRead1Output , 60, PRIVATE);
+    Particle.publish("PWM A4, AnalogRead A0", myRead1Output , 60, PRIVATE);
     delay(1000);
-    Particle.publish("AnalogWrite DAC1 AnalogRead A1", myPWMA4 , 60, PRIVATE);
+    Particle.publish("PWM A4, AnalogRead A0", myPWMA4 , 60, PRIVATE);
     delay(1000);     
     
     
@@ -226,13 +228,13 @@ void loop() {
 
     resetAllToInput();
     
-    myTestDigitalInOut();
+    //myTestDigitalInOut();   //bracket out since working
     resetAllToInput();
     
     myTestAnalogInOut();
     resetAllToInput();
     
-    myTestDAC();
+   // myTestDAC();   //bracket out since working
     resetAllToInput();
     
     myUART();
