@@ -8,7 +8,7 @@ String myTestName;
 bool digitalHighGood, digitalLowGood;
 String myPinsGood[] = {"Bad", "Bad", "Bad", "Bad", "Bad", "Bad", "Bad", "Bad", "Bad", "Bad", 
                        "Bad", "Bad", "Bad", "Bad", "Bad", "Bad", 
-                       "Bad", "Bad", "Bad", "Bad", "Bad"};
+                       "Bad", "Bad", "Bad", "Bad", "Bad"};  
 
 String myPinsName[] = {"D0", "D1", "D2", "D3", "D4", "D5", "D6", "D7", "non8","non9",   // PINS  0 - 7
                        "A0", "A1", "A2", "A3", "A4", "A5",                // PINS 10 - 15
@@ -20,14 +20,19 @@ String myPinsName[] = {"D0", "D1", "D2", "D3", "D4", "D5", "D6", "D7", "non8","n
 String myDAC1Good = "Bad"; 
 String myDAC2Good = "Bad";   
 
-int myAReadPinNum[] = {A0, A1, A2, A3, A4, A5, A6, A7};
-int myPWMPinNum[]   = {A4, A5, PWK, RX, TX, D0, D1, D2, D3};  //D2,D3 only work if A4,A5 not used for PWM
-String myAReadPinGooD[] = {"Bad", "Bad", "Bad", "Bad", "Bad", "Bad", "Bad", "Bad"};
-String myPWMPinGood[]   = {"Bad", "Bad", "Bad", "Bad", "Bad", "Bad", "Bad", "Bad", "Bad"};  //D2,D3 only work if A4,A5 not used for PWM
+String myPWMA4 = "Bad";
+
+
+
+
+//int myAReadPinNum[] = {A0, A1, A2, A3, A4, A5, A6, A7};
+//int myPWMPinNum[]   = {A4, A5, WKP, RX, TX, D0, D1, D2, D3};  //D2,D3 only work if A4,A5 not used for PWM
+//String myAReadPinGooD[] = {"Bad", "Bad", "Bad", "Bad", "Bad", "Bad", "Bad", "Bad"};
+//String myPWMPinGood[]   = {"Bad", "Bad", "Bad", "Bad", "Bad", "Bad", "Bad", "Bad", "Bad"};  //D2,D3 only work if A4,A5 not used for PWM
                        
-                       // D0  0
+                    // D0  0
                     // D7  7
-                    // note no use 8,9
+                    // note do not use 8,9
                     //  A0 = 10
                     //  A7 = 17
                     //  Rx = 18, TX=19
@@ -36,7 +41,7 @@ void setup() {
 
 // Just my testing area
 
-pinMode(30,INPUT);
+//pinMode(30,INPUT);
    // Particle.publish(String(Reset),"Reset button number", 60, PRIVATE);
    // delay(1000);
   // pinMode(8, OUTPUT);
@@ -111,6 +116,29 @@ void myTestAnalogInOut(){
     // Output to console ?? 
     
     
+    // test with A4 output to A0 input
+      
+    int myReadSmall, myReadMedium, myReadBig;
+    String myRead1Output, myRead2Output ;
+    
+    
+    pinMode(A4, OUTPUT);    // DAC1 = A6 for output
+    analogWrite(A4, 50);    
+    myReadSmall = analogRead(A0);
+    analogWrite(A4, 150);    
+    myReadMedium = analogRead(A0);    
+    analogWrite(A4, 255);    
+    myReadBig = analogRead(A0);
+    
+    myRead1Output = String(myReadSmall) + ", "+String(myReadMedium) + ", "+ String(myReadBig) ;
+    if ( myReadSmall  < 1100 && myReadMedium > 1900 && myReadMedium < 2100 && myReadBig> 2900 && myReadBig < 3100){  // will not work to variable
+        myPWMA4 = "Good";
+    }
+  
+    Particle.publish("AnalogWrite DAC1 AnalogRead A1", myRead1Output , 60, PRIVATE);
+    delay(1000);
+    Particle.publish("AnalogWrite DAC1 AnalogRead A1", myPWMA4 , 60, PRIVATE);
+    delay(1000);     
     
     
     
@@ -218,11 +246,5 @@ void loop() {
     
     Particle.publish("---", "---", 60, PRIVATE);
     delay(3000);
-
-}void setup() {
-
-}
-
-void loop() {
 
 }
