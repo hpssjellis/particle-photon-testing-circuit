@@ -20,7 +20,16 @@ String myPinsName[] = {"D0", "D1", "D2", "D3", "D4", "D5", "D6", "D7", "non8","n
 String myDAC1Good = "Bad"; 
 String myDAC2Good = "Bad";   
 
-String myPWMA4 = "Bad";
+String myPWM_A4  = "Bad";
+String myPWM_A5  = "Bad";
+String myPWM_WKP = "Bad";
+String myPWM_RX  = "Bad";
+String myPWM_TX  = "Bad";
+String myPWM_D0  = "Bad";
+String myPWM_D1  = "Bad";
+String myPWM_D2  = "Bad";
+String myPWM_D3  = "Bad";
+String myPWM_D4  = "Bad";
 
 
 
@@ -124,22 +133,30 @@ void myTestAnalogInOut(){
     String myRead1Output, myRead2Output ;
     
     
-    pinMode(A4, OUTPUT);   
-    analogWrite(A4, 50);    
+    pinMode(A4, OUTPUT);  
+    pinMode(D7, OUTPUT);
+    digitalWrite(D7,HIGH);
+    analogWrite(A4, 50);   
+    delay(1000);
     myReadSmall = analogRead(A0);
-    analogWrite(A4, 150);    
-    myReadMedium = analogRead(A0);    
-    analogWrite(A4, 255);    
+
+    analogWrite(A4, 150);   
+    delay(1000);  
+    myReadMedium = analogRead(A0); 
+ 
+    analogWrite(A4, 255);  
+    delay(1000);
     myReadBig = analogRead(A0);
+    digitalWrite(D7,LOW);
     
     myRead1Output = String(myReadSmall) + ", "+String(myReadMedium) + ", "+ String(myReadBig) ;
     if ( myReadSmall  < 1100 && myReadMedium > 1900 && myReadMedium < 2100 && myReadBig> 2900 && myReadBig < 3100){  // will not work to variable
-        myPWMA4 = "Good";
-    }
+        myPWM_A4 = "Good";
+    } else {myPWM_A4 = "Bad";}
   
     Particle.publish("PWM A4, AnalogRead A0", myRead1Output , 60, PRIVATE);
     delay(1000);
-    Particle.publish("PWM A4, AnalogRead A0", myPWMA4 , 60, PRIVATE);
+    Particle.publish("PWM A4, AnalogRead A0", myPWM_A4 , 60, PRIVATE);
     delay(1000);     
     
     
@@ -170,7 +187,7 @@ void myTestDAC(){
     myDac1Output = String(myDacRead1000) + ", "+String(myDacRead2000) + ", "+ String(myDacRead3000) ;
     if (myDacRead1000 > 900 && myDacRead1000 < 1100 && myDacRead2000 > 1900 && myDacRead2000 < 2100 && myDacRead3000 > 2900 && myDacRead3000 < 3100){
         myDAC1Good = "Good";
-    }
+    } else {myDAC1Good = "Bad";}
   
     Particle.publish("AnalogWrite DAC1 AnalogRead A1", myDac1Output , 60, PRIVATE);
     delay(1000);
@@ -188,7 +205,7 @@ void myTestDAC(){
     myDac2Output = String(myDacRead1000) + ", "+String(myDacRead2000) + ", "+ String(myDacRead3000) ;
     if (myDacRead1000 > 900 && myDacRead1000 < 1100 && myDacRead2000 > 1900 && myDacRead2000 < 2100 && myDacRead3000 > 2900 && myDacRead3000 < 3100){
         myDAC2Good = "Good";
-    }
+    } else {myDAC2Good = "Bad";}
    
     Particle.publish("AnalogWrite DAC2 AnalogRead A2", myDac2Output , 60, PRIVATE);
     delay(1000);
