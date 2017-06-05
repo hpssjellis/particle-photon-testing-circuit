@@ -53,7 +53,7 @@ String Serial_SPI   = "Bad";
 void setup() {
 
 
-    Serial.begin(9600);  // only if using this photon as a slave?
+    Serial1.begin(9600);  // only if using this photon as a slave?
 
 
 // Just my testing area
@@ -144,7 +144,7 @@ void myTestAnalogInOut(){
     pinMode(A4, OUTPUT);  
     pinMode(D7, OUTPUT);
     digitalWrite(D7,HIGH);
-    analogWrite(A4, 50);   
+    analogWrite(A4, 20);   
     delay(1000);
     myReadSmall = analogRead(A0);
 
@@ -158,7 +158,8 @@ void myTestAnalogInOut(){
     digitalWrite(D7,LOW);
     
     myRead1Output = String(myReadSmall) + ", "+String(myReadMedium) + ", "+ String(myReadBig) ;
-    
+
+    // attempt at a bit of fuzzy logic to see if PWM is working
     if (myReadBig - myReadSmall > (myReadMedium - myReadSmall)*1.10 ){  // normalized big reading more than 10% greater than normalized medium reading
     
    // if ( myReadSmall  < 1100 && myReadMedium > 1900 && myReadMedium < 2100 && myReadBig> 2900 && myReadBig < 3100){  // will not work to variable
@@ -166,6 +167,8 @@ void myTestAnalogInOut(){
     } else {myPWM_A4 = "Bad";}
   
     Particle.publish("PWM A4, AnalogRead A0", myRead1Output , 60, PRIVATE);
+    delay(1000);
+    Particle.publish("Is "+String(myReadBig - myReadSmall) + " > ", String(float((myReadMedium - myReadSmall))*0.90,2) , 60, PRIVATE);
     delay(1000);
     Particle.publish("PWM A4, AnalogRead A0", myPWM_A4 , 60, PRIVATE);
     delay(1000);     
@@ -243,15 +246,15 @@ void myUART(){
     
     // following declared in setup
    // Serial.begin(9600);  // only if using this photon as a slave?
-    int incomingByte;    // for uART
+
     
-    if (Serial.available() > 0) {
-        if (incomingByte == 'H') {
+    if (Serial1.available() > 0) {
+        int incomingFromMaster = Serial.read();
+        if (incomingFromMaster == 'A') {
             Serial_uART = "Good";
-            Particle.publish("uART Serial has read an H", String(incomingByte), 60, PRIVATE);
-            delay(1000);
-            
-            
+            Particle.publish("uART Serial has read an A", String(incomingFromMaster), 60, PRIVATE);
+            Serial1.write('B');
+            delay(1000);            
             
        } else {Serial_uART = "Bad";}
        
@@ -259,8 +262,7 @@ void myUART(){
     delay(1000);
             
     }
-    
-    
+  
     
     
 }
@@ -295,7 +297,7 @@ void loop() {
    // myTestDAC();   //bracket out since working
     resetAllToInput();
     
-    myUART();
+  //  myUART();   // needs to be tested
     resetAllToInput();
     
     myI2C();
