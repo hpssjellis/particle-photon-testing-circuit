@@ -32,6 +32,11 @@ String myPWM_D3  = "Bad";
 String myPWM_D4  = "Bad";
 
 
+String Serial_uART  = "Bad";
+String Serial_I2C   = "Bad";
+String Serial_SPI   = "Bad";
+
+
 
 
 //int myAReadPinNum[] = {A0, A1, A2, A3, A4, A5, A6, A7};
@@ -46,6 +51,9 @@ String myPWM_D4  = "Bad";
                     //  A7 = 17
                     //  Rx = 18, TX=19
 void setup() {
+
+
+    Serial.begin(9600);  // only if using this photon as a slave?
 
 
 // Just my testing area
@@ -225,6 +233,36 @@ void myTestDAC(){
 void myUART(){
     // connect second photon and run program using console
     // Schematic needs lines from TX, TR the other for each photon
+    
+    // Master working photon 
+    // Slave unknown photon
+    // connect GND to GND
+    // on Master TX to slave RX
+    // On Master RX to slave TX
+    
+    
+    // following declared in setup
+   // Serial.begin(9600);  // only if using this photon as a slave?
+    int incomingByte;    // for uART
+    
+    if (Serial.available() > 0) {
+        if (incomingByte == 'H') {
+            Serial_uART = "Good";
+            Particle.publish("uART Serial has read an H", String(incomingByte), 60, PRIVATE);
+            delay(1000);
+            
+            
+            
+       } else {Serial_uART = "Bad";}
+       
+    Particle.publish("uART Serial is", Serial_uART, 60, PRIVATE);
+    delay(1000);
+            
+    }
+    
+    
+    
+    
 }
 
 
