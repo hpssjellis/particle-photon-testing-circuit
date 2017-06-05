@@ -160,7 +160,7 @@ void myTestAnalogInOut(){
     myRead1Output = String(myReadSmall) + ", "+String(myReadMedium) + ", "+ String(myReadBig) ;
 
     // attempt at a bit of fuzzy logic to see if PWM is working
-    if (myReadBig - myReadSmall > (myReadMedium - myReadSmall)*1.10 ){  // normalized big reading more than 10% greater than normalized medium reading
+    if (myReadSmall < myReadMedium &&  myReadMedium < myReadBig && myReadBig - myReadSmall > (myReadMedium - myReadSmall)*0.90 ){  // normalized big reading more than 10% greater than normalized medium reading
     
    // if ( myReadSmall  < 1100 && myReadMedium > 1900 && myReadMedium < 2100 && myReadBig> 2900 && myReadBig < 3100){  // will not work to variable
         myPWM_A4 = "Good";
@@ -168,11 +168,67 @@ void myTestAnalogInOut(){
   
     Particle.publish("PWM A4, AnalogRead A0", myRead1Output , 60, PRIVATE);
     delay(1000);
-    Particle.publish("Is "+String(myReadBig - myReadSmall) + " > ", String(float((myReadMedium - myReadSmall))*0.90,2) , 60, PRIVATE);
+   Particle.publish("Calculation ", "Is "+String(myReadBig - myReadSmall) + " > "+String(float((myReadMedium - myReadSmall))*0.90,2) , 60, PRIVATE);
     delay(1000);
     Particle.publish("PWM A4, AnalogRead A0", myPWM_A4 , 60, PRIVATE);
     delay(1000);     
       
+  
+  
+  
+  
+  
+      resetAllToInput();
+  
+  
+  
+  
+  
+  
+  
+  
+    
+      
+    pinMode(A5, OUTPUT);  
+    pinMode(D7, OUTPUT);
+    digitalWrite(D7,HIGH);
+    analogWrite(A5, 20);   
+    delay(1000);
+    myReadSmall = analogRead(A1);
+
+    analogWrite(A5, 150);   
+    delay(1000);  
+    myReadMedium = analogRead(A1); 
+ 
+    analogWrite(A5, 255);  
+    delay(1000);
+    myReadBig = analogRead(A1);
+    digitalWrite(D7,LOW);
+    
+    myRead1Output = String(myReadSmall) + ", "+String(myReadMedium) + ", "+ String(myReadBig) ;
+
+    // attempt at a bit of fuzzy logic to see if PWM is working
+    if (myReadSmall < myReadMedium &&  myReadMedium < myReadBig && myReadBig - myReadSmall > (myReadMedium - myReadSmall)*0.90 ){  // normalized big reading more than 10% greater than normalized medium reading
+    
+   // if ( myReadSmall  < 1100 && myReadMedium > 1900 && myReadMedium < 2100 && myReadBig> 2900 && myReadBig < 3100){  // will not work to variable
+        myPWM_A5 = "Good";
+    } else {myPWM_A5 = "Bad";}
+  
+    Particle.publish("PWM A5, AnalogRead A1", myRead1Output , 60, PRIVATE);
+    delay(1000);
+    Particle.publish("Calculation ", "Is "+String(myReadBig - myReadSmall) + " > "+String(float((myReadMedium - myReadSmall))*0.90,2) , 60, PRIVATE);
+    delay(1000);
+    Particle.publish("PWM A5, AnalogRead A1", myPWM_A5 , 60, PRIVATE);
+    delay(1000);     
+      
+    
+    
+      
+    
+    
+    
+    
+    
     
     
 }
