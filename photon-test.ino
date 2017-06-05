@@ -150,7 +150,10 @@ void myTestAnalogInOut(){
     digitalWrite(D7,LOW);
     
     myRead1Output = String(myReadSmall) + ", "+String(myReadMedium) + ", "+ String(myReadBig) ;
-    if ( myReadSmall  < 1100 && myReadMedium > 1900 && myReadMedium < 2100 && myReadBig> 2900 && myReadBig < 3100){  // will not work to variable
+    
+    if (myReadBig - myReadSmall > (myReadMedium - myReadSmall)*1.10 ){  // normalized big reading more than 10% greater than normalized medium reading
+    
+   // if ( myReadSmall  < 1100 && myReadMedium > 1900 && myReadMedium < 2100 && myReadBig> 2900 && myReadBig < 3100){  // will not work to variable
         myPWM_A4 = "Good";
     } else {myPWM_A4 = "Bad";}
   
@@ -158,7 +161,7 @@ void myTestAnalogInOut(){
     delay(1000);
     Particle.publish("PWM A4, AnalogRead A0", myPWM_A4 , 60, PRIVATE);
     delay(1000);     
-    
+      
     
     
 }
