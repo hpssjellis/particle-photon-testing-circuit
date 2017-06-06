@@ -390,6 +390,7 @@ void myTestAnalogUsingDac(){
     Particle.publish("AnalogWrite DAC1 AnalogRead A4", myAnalogA4 , 60, PRIVATE);
     delay(1000);     
     pinMode(A4, INPUT);  // reset pin          
+    pinMode(DAC1, INPUT);  // reset DAC pin          
     
       
     
@@ -460,6 +461,7 @@ void myTestAnalogUsingDac(){
     Particle.publish("AnalogWrite DAC2 AnalogRead WKP", myAnalogWKP , 60, PRIVATE);
     delay(1000);
     pinMode(WKP, INPUT);  // reset pin          
+    pinMode(DAC2, INPUT);  // reset pin          
     
       
     
