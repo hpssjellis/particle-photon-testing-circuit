@@ -2,6 +2,12 @@
 // By Jeremy Ellis June 2017
 // MIT license
 
+// Make sure you flash the code before connecting your Photon
+// ALL GPIO pins are conencted together !!  (TX --> A0 and D7 --> D0 and bridge the two groups.)
+// Do not connect any of the other PINS!
+
+
+
 
 int myTesting, myUsing;  
 String myTestName;
@@ -24,9 +30,7 @@ String myDAC2Good[] = {"Bad", "Bad", "Bad", "Bad", "Bad", "Bad", "Bad"};
 String    myDac2Names[] = {"A0", "A1", "A2", "A4", "A5", "DAC1", "WKP"};
 int    myDac2Pins[] = {A0, A1, A2, A4, A5, DAC1, WKP};
 
-
-//String myDAC1Good = "Bad"; 
-//String myDAC2Good = "Bad";   
+ 
 
 String myPWM_A4  = "Bad";
 String myPWM_A5  = "Bad";
@@ -41,43 +45,7 @@ String myPWM_D4  = "Bad";
 
 
 
-
-
-
-
-
-
-//int myAReadPinNum[] = {A0, A1, A2, A3, A4, A5, A6, A7};
-//int myPWMPinNum[]   = {A4, A5, WKP, RX, TX, D0, D1, D2, D3};  //D2,D3 only work if A4,A5 not used for PWM
-//String myAReadPinGooD[] = {"Bad", "Bad", "Bad", "Bad", "Bad", "Bad", "Bad", "Bad"};
-//String myPWMPinGood[]   = {"Bad", "Bad", "Bad", "Bad", "Bad", "Bad", "Bad", "Bad", "Bad"};  //D2,D3 only work if A4,A5 not used for PWM
-                       
-                    // D0  0
-                    // D7  7
-                    // note do not use 8,9
-                    //  A0 = 10
-                    //  A7 = 17
-                    //  Rx = 18, TX=19
 void setup() {
-
-
-
-
-
-// Just my testing area
-
-//pinMode(30,INPUT);
-   // Particle.publish(String(Reset),"Reset button number", 60, PRIVATE);
-   // delay(1000);
-  // pinMode(8, OUTPUT);
-
-   // for (int myPin=0; myPin <= 19; myPin++){
-   //     if (myPin == 8){myPin = 10;}
-      
-   //     Particle.publish("Pin count = ",String(myPin), 60, PRIVATE);
-   //     delay(1000);
- // }
-
 
 }
 
@@ -94,11 +62,6 @@ void resetAllToInput(){
 
 
 void myTestDigitalInOut(){
-    // test all digital inputs by sending them 3.3V and outout the results to the console
-    // schematic needs lines from 3.3 to every GPIO input
-    // somehow these lines need to be activated. How is this done?
-    // Output to console ??
-    
 
     for (int myPin=0; myPin <= 19; myPin++){  // only to 18 as the last is connected special TX to D0 
         if (myPin == 8){myPin = 10;}   // to skip pins 8 and 9 
@@ -121,27 +84,12 @@ void myTestDigitalInOut(){
     
     }
     
-    //Then test the last pin TX
-  
-
-       
 
 }
 
 
-
-
-
-
-
-
-
-
-
-
 void myTestPWM(){  
     
-    // not testing PWM on TX or RX since they mess it up
     
     unsigned long duration;
     bool lowGood, highGood;
@@ -261,35 +209,14 @@ void myTestPWM(){
 }
 
 
-
-
-
-
-
-
-
-
 void myTestAnalogUsingDac(){
     
-
-    
-    
-// PRESET GLOBALS                           
-//String myDAC1Good[] = {"Bad", "Bad", "Bad", "Bad", "Bad", "Bad", "Bad"}; 
-//int    myDac1Pins[] = {A0, A1, A2, A3, A4, A5, WKP};
-
-//String myDAC2Good[] = {"Bad", "Bad", "Bad", "Bad", "Bad", "Bad", "Bad"}; 
-//int    myDac2Pins[] = {A0, A1, A2, A4, A5, DAC1, WKP};
 
     
     int myDacRead1000, myDacRead2000, myDacRead3000;
     String myDacOutput ;
     
    // checks all analog reads except DAC1 (A6) using DAC1 
-  
-  
-  
-  
     
     for (int myPin = 0; myPin <= 6; myPin++){
     
@@ -325,8 +252,6 @@ void myTestAnalogUsingDac(){
     
     for (int myPin = 0; myPin <= 6; myPin++){
        
-        //int myPin = 5;
-        
         pinMode(DAC2, OUTPUT);    // DAC1 = A6 for output
         analogWrite(DAC2, 1000);    
         myDacRead1000 = analogRead( myDac2Pins[myPin] );
@@ -350,45 +275,26 @@ void myTestAnalogUsingDac(){
 
     }
 
-
-
-
-    
-  
-    
-    // test both DAC lines
-    // schematic needs lines from DAC1 (A6) to A1;
-    // schematic needs lines from DAC2 (A3) to A2;
-    // somehow these lines need to be activated. How is this done?
-    // Output to console ??    
 }
 
-
-
-
-
-
-void loop() {
-
+void loop() {   // main loop
 
     resetAllToInput();
     
-    //myTestDigitalInOut();   //bracket out since working
-    //resetAllToInput();
     
-  //  myTestAnalogInOut();   // A4 and A5 Not accurate or efficient
-  //  resetAllToInput();
-  
-    // myTestPWM();   // working must test TX and RX without serial1 active
-    //resetAllToInput();
+    myTestDigitalInOut();   
+    resetAllToInput();
+    
+    
+    myTestPWM();   
+    resetAllToInput();
   
     
     myTestAnalogUsingDac();   
     resetAllToInput();
     
-
     
-    Particle.publish("---", "---", 60, PRIVATE);
-    delay(20000);   //wait 20 s
+    Particle.publish("Analyse the results", "waiting 30 (s) to repeat", 60, PRIVATE);
+    delay(30000);   //wait 30 s
 
 }
