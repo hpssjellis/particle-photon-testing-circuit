@@ -15,8 +15,16 @@ String myPinsName[] = {"D0", "D1", "D2", "D3", "D4", "D5", "D6", "D7", "non8","n
                        "DAC", "WKP", "RX", "TX", "BTN", "generic1", "generic2"};                  // PINS 16 - 20
                        
                        
-                       
-                       
+String myDAC1Good[] = {"Bad", "Bad", "Bad", "Bad", "Bad", "Bad", "Bad"}; 
+String    myDac1Names[] = {"A0", "A1", "A2", "A3", "A4", "A5", "WKP"};
+int    myDac1Pins[] = {A0, A1, A2, A3, A4, A5, WKP};
+
+
+String myDAC2Good[] = {"Bad", "Bad", "Bad", "Bad", "Bad", "Bad", "Bad"}; 
+String    myDac2Names[] = {"A0", "A1", "A2", "A4", "A5", "DAC1", "WKP"};
+int    myDac2Pins[] = {A0, A1, A2, A4, A5, DAC1, WKP};
+
+
 //String myDAC1Good = "Bad"; 
 //String myDAC2Good = "Bad";   
 
@@ -275,202 +283,83 @@ void myTestPWM(){
 
 void myTestAnalogUsingDac(){
     
-    // String myDAC1Good = "Bad";  //decalred as a global variable
-    // String myDAC2Good = "Bad";  // declared as a global variable    
+
+    
+
+
     
     int myDacRead1000, myDacRead2000, myDacRead3000;
-    String myDac1Output,myDac2Output ;
+    String myDacOutput ;
     
-    
-    
-    
-    
-    pinMode(DAC1, OUTPUT);    // DAC1 = A6 for output
-    analogWrite(DAC1, 1000);    
-    myDacRead1000 = analogRead(A0);
-    analogWrite(DAC1, 2000);    
-    myDacRead2000 = analogRead(A0);
-    analogWrite(DAC1, 3000);    
-    myDacRead3000 = analogRead(A0);
-    
-    myDac1Output = String(myDacRead1000) + ", "+String(myDacRead2000) + ", "+ String(myDacRead3000) ;
-    if (myDacRead1000 > 900 && myDacRead1000 < 1100 && myDacRead2000 > 1900 && myDacRead2000 < 2100 && myDacRead3000 > 2900 && myDacRead3000 < 3100){
-        myAnalogA0 = "Good";
-    } else {myAnalogA0 = "Bad";}
+   // checks all analog reads except DAC1 (A6) using DAC1 
   
-    Particle.publish("AnalogWrite DAC1 AnalogRead A0", myDac1Output , 60, PRIVATE);
-    delay(1000);
-    Particle.publish("AnalogWrite DAC1 AnalogRead A0", myAnalogA0 , 60, PRIVATE);
-    delay(1000);     
-    pinMode(A0, INPUT);  // reset pin       
-    
-     
-    
-    pinMode(DAC1, OUTPUT);    // DAC1 = A6 for output
-    analogWrite(DAC1, 1000);    
-    myDacRead1000 = analogRead(A1);
-    analogWrite(DAC1, 2000);    
-    myDacRead2000 = analogRead(A1);
-    analogWrite(DAC1, 3000);    
-    myDacRead3000 = analogRead(A1);
-    
-    myDac1Output = String(myDacRead1000) + ", "+String(myDacRead2000) + ", "+ String(myDacRead3000) ;
-    if (myDacRead1000 > 900 && myDacRead1000 < 1100 && myDacRead2000 > 1900 && myDacRead2000 < 2100 && myDacRead3000 > 2900 && myDacRead3000 < 3100){
-        myAnalogA1 = "Good";
-    } else {myAnalogA1 = "Bad";}
   
-    Particle.publish("AnalogWrite DAC1 AnalogRead A1", myDac1Output , 60, PRIVATE);
-    delay(1000);
-    Particle.publish("AnalogWrite DAC1 AnalogRead A1", myAnalogA1 , 60, PRIVATE);
-    delay(1000);     
-    pinMode(A1, INPUT);  // reset pin           
-    
-    
-    
-    
-    pinMode(DAC1, OUTPUT);    // DAC1 = A6 for output
-    analogWrite(DAC1, 1000);    
-    myDacRead1000 = analogRead(A2);
-    analogWrite(DAC1, 2000);    
-    myDacRead2000 = analogRead(A2);
-    analogWrite(DAC1, 3000);    
-    myDacRead3000 = analogRead(A2);
-    
-    myDac1Output = String(myDacRead1000) + ", "+String(myDacRead2000) + ", "+ String(myDacRead3000) ;
-    if (myDacRead1000 > 900 && myDacRead1000 < 1100 && myDacRead2000 > 1900 && myDacRead2000 < 2100 && myDacRead3000 > 2900 && myDacRead3000 < 3100){
-        myAnalogA2 = "Good";
-    } else {myAnalogA2 = "Bad";}
   
-    Particle.publish("AnalogWrite DAC1 AnalogRead A2", myDac1Output , 60, PRIVATE);
-    delay(1000);
-    Particle.publish("AnalogWrite DAC1 AnalogRead A2", myAnalogA2 , 60, PRIVATE);
-    delay(1000);     
-    pinMode(A2, INPUT);  // reset pin           
+ /* 
     
+    for (int myPin = 0; myPin <= 6; myPin++){
+    
+        pinMode(DAC1, OUTPUT);    // DAC1 = A6 for output
+        analogWrite(DAC1, 1000);    
+        myDacRead1000 = analogRead( myDac1Pins[myPin] );
+        analogWrite(DAC1, 2000);    
+        myDacRead2000 = analogRead(myDac1Pins[myPin]);
+        analogWrite(DAC1, 3000);    
+        myDacRead3000 = analogRead(myDac1Pins[myPin]);
+        pinMode(DAC1, INPUT);  // reset DAC pin     
+        digitalRead(DAC1);
         
-    
-    pinMode(DAC1, OUTPUT);    // DAC1 = A6 for output
-    analogWrite(DAC1, 1000);    
-    myDacRead1000 = analogRead(A3);
-    analogWrite(DAC1, 2000);    
-    myDacRead2000 = analogRead(A3);
-    analogWrite(DAC1, 3000);    
-    myDacRead3000 = analogRead(A3);
-    
-    myDac1Output = String(myDacRead1000) + ", "+String(myDacRead2000) + ", "+ String(myDacRead3000) ;
-    if (myDacRead1000 > 900 && myDacRead1000 < 1100 && myDacRead2000 > 1900 && myDacRead2000 < 2100 && myDacRead3000 > 2900 && myDacRead3000 < 3100){
-        myAnalogA3 = "Good";
-    } else {myAnalogA3 = "Bad";}
-  
-    Particle.publish("AnalogWrite DAC1 AnalogRead A3", myDac1Output , 60, PRIVATE);
-    delay(1000);
-    Particle.publish("AnalogWrite DAC1 AnalogRead A3", myAnalogA3 , 60, PRIVATE);
-    delay(1000);     
-    pinMode(A3, INPUT);  // reset pin           
-    
-    
+        myDacOutput = String(myDacRead1000) + ", "+String(myDacRead2000) + ", "+ String(myDacRead3000) ;
+        if (myDacRead1000 > 900 && myDacRead1000 < 1100 && myDacRead2000 > 1900 && myDacRead2000 < 2100 && myDacRead3000 > 2900 && myDacRead3000 < 3100){
+            myDAC1Good[myPin] = "Good";
+        } else {myDAC1Good[myPin] = "Bad";}
+      
+        Particle.publish("Write DAC1, Read " + String(myDac1Names[myPin]), myDacOutput , 60, PRIVATE);
+        delay(2000);
+        Particle.publish("Write DAC1, Read " + String(myDac1Names[myPin]), myDAC1Good[myPin] , 60, PRIVATE);
+        delay(2000);     
+        pinMode( myDac1Pins[myPin] , INPUT);  // reset pin      
 
+    }
+*/
+
+    resetAllToInput();
+
+
+   // checks all analog reads except DAC2 (A3) using DAC2 
+    
+    for (int myPin = 0; myPin <= 6; myPin++){
        
-    
-    pinMode(DAC1, OUTPUT);    // DAC1 = A6 for output
-    analogWrite(DAC1, 1000);    
-    myDacRead1000 = analogRead(A4);
-    analogWrite(DAC1, 2000);    
-    myDacRead2000 = analogRead(A4);
-    analogWrite(DAC1, 3000);    
-    myDacRead3000 = analogRead(A4);
-    
-    myDac1Output = String(myDacRead1000) + ", "+String(myDacRead2000) + ", "+ String(myDacRead3000) ;
-    if (myDacRead1000 > 900 && myDacRead1000 < 1100 && myDacRead2000 > 1900 && myDacRead2000 < 2100 && myDacRead3000 > 2900 && myDacRead3000 < 3100){
-        myAnalogA4 = "Good";
-    } else {myAnalogA4 = "Bad";}
-  
-    Particle.publish("AnalogWrite DAC1 AnalogRead A4", myDac1Output , 60, PRIVATE);
-    delay(1000);
-    Particle.publish("AnalogWrite DAC1 AnalogRead A4", myAnalogA4 , 60, PRIVATE);
-    delay(1000);     
-    pinMode(A4, INPUT);  // reset pin          
-    pinMode(DAC1, INPUT);  // reset DAC pin          
-    
+        //int myPin = 5;
+        
+        pinMode(DAC2, OUTPUT);    // DAC1 = A6 for output
+        analogWrite(DAC2, 1000);    
+        myDacRead1000 = analogRead( myDac2Pins[myPin] );
+        analogWrite(DAC2, 2000);    
+        myDacRead2000 = analogRead(myDac2Pins[myPin]);
+        analogWrite(DAC2, 3000);    
+        myDacRead3000 = analogRead(myDac2Pins[myPin]);
+        pinMode(DAC2, INPUT);  // reset DAC pin     
+        digitalRead(DAC2);
+        
+        myDacOutput = String(myDacRead1000) + ", "+String(myDacRead2000) + ", "+ String(myDacRead3000) ;
+        if (myDacRead1000 > 900 && myDacRead1000 < 1100 && myDacRead2000 > 1900 && myDacRead2000 < 2100 && myDacRead3000 > 2900 && myDacRead3000 < 3100){
+            myDAC2Good[myPin] = "Good";
+        } else {myDAC2Good[myPin] = "Bad";}
       
-    
-    
-    
-    
-    
+        Particle.publish("Write DAC2, Read " + String(myDac2Names[myPin]), myDacOutput , 60, PRIVATE);
+        delay(2000);
+        Particle.publish("Write DAC2, Read " + String(myDac2Names[myPin]), myDAC2Good[myPin] , 60, PRIVATE);
+        delay(2000);     
+        pinMode( myDac2Pins[myPin] , INPUT);  // reset pin      
 
-      
+    }
+
+
+
+
     
-    pinMode(DAC2, OUTPUT);    // DAC2 = A3 for output
-    analogWrite(DAC2, 1000);    
-    myDacRead1000 = analogRead(A5);
-    analogWrite(DAC2, 2000);    
-    myDacRead2000 = analogRead(A5);
-    analogWrite(DAC2, 3000);    
-    myDacRead3000 = analogRead(A5);
-    
-    myDac2Output = String(myDacRead1000) + ", "+String(myDacRead2000) + ", "+ String(myDacRead3000) ;
-    if (myDacRead1000 > 900 && myDacRead1000 < 1100 && myDacRead2000 > 1900 && myDacRead2000 < 2100 && myDacRead3000 > 2900 && myDacRead3000 < 3100){
-        myAnalogA5 = "Good";
-    } else {myAnalogA5 = "Bad";}
-   
-    Particle.publish("AnalogWrite DAC2 AnalogRead A5", myDac2Output , 60, PRIVATE);
-    delay(1000);
-    Particle.publish("AnalogWrite DAC2 AnalogRead A5", myAnalogA5 , 60, PRIVATE);
-    delay(1000);
-    pinMode(A5, INPUT);  // reset pin           
-    
-        
-    
-    pinMode(DAC2, OUTPUT);    // DAC2 = A3 for output
-    analogWrite(DAC2, 1000);    
-    myDacRead1000 = analogRead(DAC1);
-    analogWrite(DAC2, 2000);    
-    myDacRead2000 = analogRead(DAC1);
-    analogWrite(DAC2, 3000);    
-    myDacRead3000 = analogRead(DAC1);
-    
-    myDac2Output = String(myDacRead1000) + ", "+String(myDacRead2000) + ", "+ String(myDacRead3000) ;
-    if (myDacRead1000 > 900 && myDacRead1000 < 1100 && myDacRead2000 > 1900 && myDacRead2000 < 2100 && myDacRead3000 > 2900 && myDacRead3000 < 3100){
-        myAnalogDAC1 = "Good";
-    } else {myAnalogDAC1 = "Bad";}
-   
-    Particle.publish("AnalogWrite DAC2 AnalogRead DAC1", myDac2Output , 60, PRIVATE);
-    delay(1000);
-    Particle.publish("AnalogWrite DAC2 AnalogRead DAC1", myAnalogDAC1 , 60, PRIVATE);
-    delay(1000);
-    pinMode(DAC1, INPUT);  // reset pin           
-    
-        
-    
-    pinMode(DAC2, OUTPUT);    // DAC2 = A3 for output
-    analogWrite(DAC2, 1000);    
-    myDacRead1000 = analogRead(WKP);
-    analogWrite(DAC2, 2000);    
-    myDacRead2000 = analogRead(WKP);
-    analogWrite(DAC2, 3000);    
-    myDacRead3000 = analogRead(WKP);
-    
-    myDac2Output = String(myDacRead1000) + ", "+String(myDacRead2000) + ", "+ String(myDacRead3000) ;
-    if (myDacRead1000 > 900 && myDacRead1000 < 1100 && myDacRead2000 > 1900 && myDacRead2000 < 2100 && myDacRead3000 > 2900 && myDacRead3000 < 3100){
-        myAnalogWKP = "Good";
-    } else {myAnalogWKP = "Bad";}
-   
-    Particle.publish("AnalogWrite DAC2 AnalogRead WKP", myDac2Output , 60, PRIVATE);
-    delay(1000);
-    Particle.publish("AnalogWrite DAC2 AnalogRead WKP", myAnalogWKP , 60, PRIVATE);
-    delay(1000);
-    pinMode(WKP, INPUT);  // reset pin          
-    pinMode(DAC2, INPUT);  // reset pin          
-    
-      
-    
-    
-    
-    
-    
-    
-    
+  
     
     // test both DAC lines
     // schematic needs lines from DAC1 (A6) to A1;
@@ -505,6 +394,6 @@ void loop() {
 
     
     Particle.publish("---", "---", 60, PRIVATE);
-    delay(3000);
+    delay(20000);   //wait 20 s
 
 }
