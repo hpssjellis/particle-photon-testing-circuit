@@ -17,8 +17,8 @@ String myPinsName[] = {"D0", "D1", "D2", "D3", "D4", "D5", "D6", "D7", "non8","n
                        
                        
                        
-String myDAC1Good = "Bad"; 
-String myDAC2Good = "Bad";   
+//String myDAC1Good = "Bad"; 
+//String myDAC2Good = "Bad";   
 
 String myPWM_A4  = "Bad";
 String myPWM_A5  = "Bad";
@@ -30,6 +30,18 @@ String myPWM_D1  = "Bad";
 String myPWM_D2  = "Bad";
 String myPWM_D3  = "Bad";
 String myPWM_D4  = "Bad";
+
+
+
+
+String myAnalogA0 = "Bad";
+String myAnalogA1 = "Bad";
+String myAnalogA2 = "Bad";
+String myAnalogA3 = "Bad";
+String myAnalogA4 = "Bad";
+String myAnalogA5 = "Bad";
+String myAnalogDAC1 = "Bad";
+String myAnalogWKP = "Bad";
 
 
 String Serial_uART  = "Bad";
@@ -128,11 +140,6 @@ void myTestDigitalInOut(){
 
 
 
-void myTestAnalogRead(){  
-    
-}
-
-
 
 
 
@@ -181,10 +188,31 @@ void myTestPWM(){
     delay(1000);   
     pinMode(WKP, INPUT);  // reset pin    
     duration = pulseIn(D6, LOW);      
-        
-
-
-    
+     
+    mySetPWM = random(1, 254);     
+    pinMode(TX, OUTPUT);
+    analogWrite(TX, mySetPWM);
+    duration = pulseIn(D6, HIGH);
+    if (duration > mySetPWM * 7.84 * 0.9 && duration < mySetPWM * 7.84 * 1.1 ){ myPWM_TX = "Good";} else {myPWM_TX = "Bad";}
+    Particle.publish("PWM TX, "+String(mySetPWM)+" = "+String(mySetPWM * 7.84, 0),String(duration)+" (ms)" , 60, PRIVATE);
+    delay(1000);
+    Particle.publish("PWM TX is", myPWM_A5, 60, PRIVATE);
+    delay(1000);  
+    pinMode(TX, INPUT);  // reset pin    
+    duration = pulseIn(D6, LOW);      
+            
+    mySetPWM = random(1, 254);     
+    pinMode(RX, OUTPUT);
+    analogWrite(RX, mySetPWM);
+    duration = pulseIn(D6, HIGH);
+    if (duration > mySetPWM * 7.84 * 0.9 && duration < mySetPWM * 7.84 * 1.1 ){ myPWM_RX = "Good";} else {myPWM_RX = "Bad";}
+    Particle.publish("PWM RX, "+String(mySetPWM)+" = "+String(mySetPWM * 7.84, 0),String(duration)+" (ms)" , 60, PRIVATE);
+    delay(1000);
+    Particle.publish("PWM RX is", myPWM_A5, 60, PRIVATE);
+    delay(1000);  
+    pinMode(RX, INPUT);  // reset pin    
+    duration = pulseIn(D6, LOW);      
+               
     mySetPWM = random(1, 254); 
     pinMode(D0, OUTPUT);
     analogWrite(D0, mySetPWM);
@@ -197,7 +225,6 @@ void myTestPWM(){
     pinMode(D0, INPUT);  // reset pin    
     duration = pulseIn(D6, LOW);
 
-        
     mySetPWM = random(1, 254); 
     pinMode(D1, OUTPUT);
     analogWrite(D1, mySetPWM);
@@ -210,7 +237,6 @@ void myTestPWM(){
     pinMode(D1, INPUT);  // reset pin    
     duration = pulseIn(D6, LOW);
     
-        
     mySetPWM = random(1, 254); 
     pinMode(D2, OUTPUT);
     analogWrite(D2, mySetPWM);
@@ -223,9 +249,6 @@ void myTestPWM(){
     pinMode(D2, INPUT);  // reset pin    
     duration = pulseIn(D6, LOW);
     
-
-    
-        
     mySetPWM = random(1, 254); 
     pinMode(D3, OUTPUT);
     analogWrite(D3, mySetPWM);
@@ -239,9 +262,6 @@ void myTestPWM(){
     duration = pulseIn(D6, LOW);
     
 
-
-
-
 }
 
 
@@ -253,7 +273,7 @@ void myTestPWM(){
 
 
 
-void myTestDAC(){
+void myTestAnalogUsingDac(){
     
     // String myDAC1Good = "Bad";  //decalred as a global variable
     // String myDAC2Good = "Bad";  // declared as a global variable    
@@ -261,6 +281,30 @@ void myTestDAC(){
     int myDacRead1000, myDacRead2000, myDacRead3000;
     String myDac1Output,myDac2Output ;
     
+    
+    
+    
+    
+    pinMode(DAC1, OUTPUT);    // DAC1 = A6 for output
+    analogWrite(DAC1, 1000);    
+    myDacRead1000 = analogRead(A0);
+    analogWrite(DAC1, 2000);    
+    myDacRead2000 = analogRead(A0);
+    analogWrite(DAC1, 3000);    
+    myDacRead3000 = analogRead(A0);
+    
+    myDac1Output = String(myDacRead1000) + ", "+String(myDacRead2000) + ", "+ String(myDacRead3000) ;
+    if (myDacRead1000 > 900 && myDacRead1000 < 1100 && myDacRead2000 > 1900 && myDacRead2000 < 2100 && myDacRead3000 > 2900 && myDacRead3000 < 3100){
+        myAnalogA0 = "Good";
+    } else {myAnalogA0 = "Bad";}
+  
+    Particle.publish("AnalogWrite DAC1 AnalogRead A0", myDac1Output , 60, PRIVATE);
+    delay(1000);
+    Particle.publish("AnalogWrite DAC1 AnalogRead A0", myAnalogA0 , 60, PRIVATE);
+    delay(1000);     
+    
+    
+     
     
     pinMode(DAC1, OUTPUT);    // DAC1 = A6 for output
     analogWrite(DAC1, 1000);    
@@ -272,31 +316,160 @@ void myTestDAC(){
     
     myDac1Output = String(myDacRead1000) + ", "+String(myDacRead2000) + ", "+ String(myDacRead3000) ;
     if (myDacRead1000 > 900 && myDacRead1000 < 1100 && myDacRead2000 > 1900 && myDacRead2000 < 2100 && myDacRead3000 > 2900 && myDacRead3000 < 3100){
-        myDAC1Good = "Good";
-    } else {myDAC1Good = "Bad";}
+        myAnalogA1 = "Good";
+    } else {myAnalogA1 = "Bad";}
   
     Particle.publish("AnalogWrite DAC1 AnalogRead A1", myDac1Output , 60, PRIVATE);
     delay(1000);
-    Particle.publish("AnalogWrite DAC1 AnalogRead A1", myDAC1Good , 60, PRIVATE);
+    Particle.publish("AnalogWrite DAC1 AnalogRead A1", myAnalogA1 , 60, PRIVATE);
     delay(1000);     
     
-    pinMode(DAC2, OUTPUT);    // DAC1 = A6 for output
-    analogWrite(DAC2, 1000);    
+    
+    
+    
+    
+    pinMode(DAC1, OUTPUT);    // DAC1 = A6 for output
+    analogWrite(DAC1, 1000);    
     myDacRead1000 = analogRead(A2);
-    analogWrite(DAC2, 2000);    
+    analogWrite(DAC1, 2000);    
     myDacRead2000 = analogRead(A2);
-    analogWrite(DAC2, 3000);    
+    analogWrite(DAC1, 3000);    
     myDacRead3000 = analogRead(A2);
+    
+    myDac1Output = String(myDacRead1000) + ", "+String(myDacRead2000) + ", "+ String(myDacRead3000) ;
+    if (myDacRead1000 > 900 && myDacRead1000 < 1100 && myDacRead2000 > 1900 && myDacRead2000 < 2100 && myDacRead3000 > 2900 && myDacRead3000 < 3100){
+        myAnalogA2 = "Good";
+    } else {myAnalogA2 = "Bad";}
+  
+    Particle.publish("AnalogWrite DAC1 AnalogRead A2", myDac1Output , 60, PRIVATE);
+    delay(1000);
+    Particle.publish("AnalogWrite DAC1 AnalogRead A2", myAnalogA2 , 60, PRIVATE);
+    delay(1000);     
+    
+    
+        
+    
+    pinMode(DAC1, OUTPUT);    // DAC1 = A6 for output
+    analogWrite(DAC1, 1000);    
+    myDacRead1000 = analogRead(A3);
+    analogWrite(DAC1, 2000);    
+    myDacRead2000 = analogRead(A3);
+    analogWrite(DAC1, 3000);    
+    myDacRead3000 = analogRead(A3);
+    
+    myDac1Output = String(myDacRead1000) + ", "+String(myDacRead2000) + ", "+ String(myDacRead3000) ;
+    if (myDacRead1000 > 900 && myDacRead1000 < 1100 && myDacRead2000 > 1900 && myDacRead2000 < 2100 && myDacRead3000 > 2900 && myDacRead3000 < 3100){
+        myAnalogA3 = "Good";
+    } else {myAnalogA3 = "Bad";}
+  
+    Particle.publish("AnalogWrite DAC1 AnalogRead A3", myDac1Output , 60, PRIVATE);
+    delay(1000);
+    Particle.publish("AnalogWrite DAC1 AnalogRead A3", myAnalogA3 , 60, PRIVATE);
+    delay(1000);     
+    
+    
+    
+
+       
+    
+    pinMode(DAC1, OUTPUT);    // DAC1 = A6 for output
+    analogWrite(DAC1, 1000);    
+    myDacRead1000 = analogRead(A4);
+    analogWrite(DAC1, 2000);    
+    myDacRead2000 = analogRead(A4);
+    analogWrite(DAC1, 3000);    
+    myDacRead3000 = analogRead(A4);
+    
+    myDac1Output = String(myDacRead1000) + ", "+String(myDacRead2000) + ", "+ String(myDacRead3000) ;
+    if (myDacRead1000 > 900 && myDacRead1000 < 1100 && myDacRead2000 > 1900 && myDacRead2000 < 2100 && myDacRead3000 > 2900 && myDacRead3000 < 3100){
+        myAnalogA4 = "Good";
+    } else {myAnalogA4 = "Bad";}
+  
+    Particle.publish("AnalogWrite DAC1 AnalogRead A4", myDac1Output , 60, PRIVATE);
+    delay(1000);
+    Particle.publish("AnalogWrite DAC1 AnalogRead A4", myAnalogA4 , 60, PRIVATE);
+    delay(1000);     
+    
+    
+      
+    
+    
+    
+    
+    
+
+      
+    
+    pinMode(DAC2, OUTPUT);    // DAC2 = A3 for output
+    analogWrite(DAC2, 1000);    
+    myDacRead1000 = analogRead(A5);
+    analogWrite(DAC2, 2000);    
+    myDacRead2000 = analogRead(A5);
+    analogWrite(DAC2, 3000);    
+    myDacRead3000 = analogRead(A5);
     
     myDac2Output = String(myDacRead1000) + ", "+String(myDacRead2000) + ", "+ String(myDacRead3000) ;
     if (myDacRead1000 > 900 && myDacRead1000 < 1100 && myDacRead2000 > 1900 && myDacRead2000 < 2100 && myDacRead3000 > 2900 && myDacRead3000 < 3100){
-        myDAC2Good = "Good";
-    } else {myDAC2Good = "Bad";}
+        myAnalogA5 = "Good";
+    } else {myAnalogA5 = "Bad";}
    
-    Particle.publish("AnalogWrite DAC2 AnalogRead A2", myDac2Output , 60, PRIVATE);
+    Particle.publish("AnalogWrite DAC2 AnalogRead A5", myDac2Output , 60, PRIVATE);
     delay(1000);
-    Particle.publish("AnalogWrite DAC2 AnalogRead A2", myDAC2Good , 60, PRIVATE);
+    Particle.publish("AnalogWrite DAC2 AnalogRead A5", myAnalogA5 , 60, PRIVATE);
     delay(1000);
+    
+    
+        
+    
+    pinMode(DAC2, OUTPUT);    // DAC2 = A3 for output
+    analogWrite(DAC2, 1000);    
+    myDacRead1000 = analogRead(DAC1);
+    analogWrite(DAC2, 2000);    
+    myDacRead2000 = analogRead(DAC1);
+    analogWrite(DAC2, 3000);    
+    myDacRead3000 = analogRead(DAC1);
+    
+    myDac2Output = String(myDacRead1000) + ", "+String(myDacRead2000) + ", "+ String(myDacRead3000) ;
+    if (myDacRead1000 > 900 && myDacRead1000 < 1100 && myDacRead2000 > 1900 && myDacRead2000 < 2100 && myDacRead3000 > 2900 && myDacRead3000 < 3100){
+        myAnalogDAC1 = "Good";
+    } else {myAnalogDAC1 = "Bad";}
+   
+    Particle.publish("AnalogWrite DAC2 AnalogRead DAC1", myDac2Output , 60, PRIVATE);
+    delay(1000);
+    Particle.publish("AnalogWrite DAC2 AnalogRead DAC1", myAnalogDAC1 , 60, PRIVATE);
+    delay(1000);
+    
+    
+        
+    
+    pinMode(DAC2, OUTPUT);    // DAC2 = A3 for output
+    analogWrite(DAC2, 1000);    
+    myDacRead1000 = analogRead(WKP);
+    analogWrite(DAC2, 2000);    
+    myDacRead2000 = analogRead(WKP);
+    analogWrite(DAC2, 3000);    
+    myDacRead3000 = analogRead(WKP);
+    
+    myDac2Output = String(myDacRead1000) + ", "+String(myDacRead2000) + ", "+ String(myDacRead3000) ;
+    if (myDacRead1000 > 900 && myDacRead1000 < 1100 && myDacRead2000 > 1900 && myDacRead2000 < 2100 && myDacRead3000 > 2900 && myDacRead3000 < 3100){
+        myAnalogWKP = "Good";
+    } else {myAnalogWKP = "Bad";}
+   
+    Particle.publish("AnalogWrite DAC2 AnalogRead WKP", myDac2Output , 60, PRIVATE);
+    delay(1000);
+    Particle.publish("AnalogWrite DAC2 AnalogRead WKP", myAnalogWKP , 60, PRIVATE);
+    delay(1000);
+    
+    
+      
+    
+    
+    
+    
+    
+    
+    
+    
     // test both DAC lines
     // schematic needs lines from DAC1 (A6) to A1;
     // schematic needs lines from DAC2 (A3) to A2;
@@ -305,59 +478,6 @@ void myTestDAC(){
 }
 
 
-void myUART(){
-    // connect second photon and run program using console
-    // Schematic needs lines from TX, TR the other for each photon
-    
-    // Master working photon 
-    // Slave unknown photon
-    // connect GND to GND
-    // on Master TX to slave RX
-    // On Master RX to slave TX
-    
-    
-    // following declared in setup
-   // Serial.begin(9600);  // only if using this photon as a slave?
-   
-    Serial1.begin(9600);  // only if using this photon as a slave?
-    
-    Particle.publish("uART Serial1 started", "On TX and RX", 60, PRIVATE);
-
-    if (Serial1.available() > 0) {
-        
-        Particle.publish("Serial1 Available", "---", 60, PRIVATE);
-        delay(1000);
-        int incomingFromMaster = Serial1.read();
-        if (incomingFromMaster == 'A') {
-            Serial_uART = "Good";
-            Particle.publish("Serial1 working A = 65", String(incomingFromMaster), 60, PRIVATE);
-            Serial1.write('B');
-            delay(1000);            
-            
-       } else {Serial_uART = "Bad";}
-       
-    }
-    Particle.publish("uART Serial is", Serial_uART, 60, PRIVATE);
-    delay(1000); 
-    
-    Serial1.end();  // only if using this photon as a slave?
-    
-    Particle.publish("uART serial1 disconnecting", "Test finished", 60, PRIVATE);
-    delay(1000);
-}
-
-
-void myI2C(){
-    // connect second photon and run program using console
-    // Schematic needs lines from D0, D1
-}
-
-
-
-void mySPI(){
-    // connect second photon and run program using console
-    // Schematic needs lines from A2, A3, A4, A5 to each photon
-}
 
 
 
@@ -368,30 +488,19 @@ void loop() {
     resetAllToInput();
     
     //myTestDigitalInOut();   //bracket out since working
-    resetAllToInput();
+    //resetAllToInput();
     
   //  myTestAnalogInOut();   // A4 and A5 Not accurate or efficient
   //  resetAllToInput();
   
-  
-    myTestAnalogRead();
-    resetAllToInput();
-    
-   // myTestPWM();   // working except TX and RX
-    resetAllToInput();
+    // myTestPWM();   // working must test TX and RX without serial1 active
+    //resetAllToInput();
   
     
-   // myTestDAC();   //bracket out since working
+    myTestAnalogUsingDac();   
     resetAllToInput();
     
-    myUART();   // working 
-    resetAllToInput();
-    
-    myI2C();
-    resetAllToInput();
-    
-    mySPI();
-    resetAllToInput();
+
     
     Particle.publish("---", "---", 60, PRIVATE);
     delay(3000);
