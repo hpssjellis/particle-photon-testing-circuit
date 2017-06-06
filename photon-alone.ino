@@ -42,19 +42,7 @@ String myPWM_D4  = "Bad";
 
 
 
-String myAnalogA0 = "Bad";
-String myAnalogA1 = "Bad";
-String myAnalogA2 = "Bad";
-String myAnalogA3 = "Bad";
-String myAnalogA4 = "Bad";
-String myAnalogA5 = "Bad";
-String myAnalogDAC1 = "Bad";
-String myAnalogWKP = "Bad";
 
-
-String Serial_uART  = "Bad";
-String Serial_I2C   = "Bad";
-String Serial_SPI   = "Bad";
 
 
 
@@ -285,7 +273,13 @@ void myTestAnalogUsingDac(){
     
 
     
+    
+// PRESET GLOBALS                           
+//String myDAC1Good[] = {"Bad", "Bad", "Bad", "Bad", "Bad", "Bad", "Bad"}; 
+//int    myDac1Pins[] = {A0, A1, A2, A3, A4, A5, WKP};
 
+//String myDAC2Good[] = {"Bad", "Bad", "Bad", "Bad", "Bad", "Bad", "Bad"}; 
+//int    myDac2Pins[] = {A0, A1, A2, A4, A5, DAC1, WKP};
 
     
     int myDacRead1000, myDacRead2000, myDacRead3000;
@@ -295,7 +289,7 @@ void myTestAnalogUsingDac(){
   
   
   
- /* 
+  
     
     for (int myPin = 0; myPin <= 6; myPin++){
     
@@ -306,8 +300,9 @@ void myTestAnalogUsingDac(){
         myDacRead2000 = analogRead(myDac1Pins[myPin]);
         analogWrite(DAC1, 3000);    
         myDacRead3000 = analogRead(myDac1Pins[myPin]);
-        pinMode(DAC1, INPUT);  // reset DAC pin     
-        digitalRead(DAC1);
+        digitalWrite(DAC1, LOW);
+        pinMode(DAC1, INPUT);
+        
         
         myDacOutput = String(myDacRead1000) + ", "+String(myDacRead2000) + ", "+ String(myDacRead3000) ;
         if (myDacRead1000 > 900 && myDacRead1000 < 1100 && myDacRead2000 > 1900 && myDacRead2000 < 2100 && myDacRead3000 > 2900 && myDacRead3000 < 3100){
@@ -321,9 +316,9 @@ void myTestAnalogUsingDac(){
         pinMode( myDac1Pins[myPin] , INPUT);  // reset pin      
 
     }
-*/
 
-    resetAllToInput();
+
+
 
 
    // checks all analog reads except DAC2 (A3) using DAC2 
@@ -339,8 +334,8 @@ void myTestAnalogUsingDac(){
         myDacRead2000 = analogRead(myDac2Pins[myPin]);
         analogWrite(DAC2, 3000);    
         myDacRead3000 = analogRead(myDac2Pins[myPin]);
-        pinMode(DAC2, INPUT);  // reset DAC pin     
-        digitalRead(DAC2);
+        digitalWrite(DAC2, LOW);
+        pinMode(DAC2, INPUT);
         
         myDacOutput = String(myDacRead1000) + ", "+String(myDacRead2000) + ", "+ String(myDacRead3000) ;
         if (myDacRead1000 > 900 && myDacRead1000 < 1100 && myDacRead2000 > 1900 && myDacRead2000 < 2100 && myDacRead3000 > 2900 && myDacRead3000 < 3100){
