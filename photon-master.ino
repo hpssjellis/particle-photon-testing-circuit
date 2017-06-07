@@ -4,6 +4,7 @@
 
 
 int x = 4;
+String myMasterOut;
 
     
     // Master working photon 
@@ -18,6 +19,8 @@ int x = 4;
     // GND master to GND slave
     // D0 (SDA = data) on master to D0 on slave
     // D1 (SCL = clock) on Master to D1 on slave
+    // pullup 470 k ohm resistor from D0 to 3V3
+    // pullup 470 k ohm resistor from D1 to 3V3
 
 void setup() {
    // Serial1.begin(9600);  // uART start TX, RX
@@ -55,27 +58,29 @@ void myUart() {
 
 void myI2C(){
     
-    Wire.beginTransmission(4); // transmit to device #9
-    Wire.write(x);              // sends x 
-    Wire.endTransmission();    // stop transmitting
-    x++; // Increment x
-    if (x > 5) x = 0; // reset x once it gets 6
-    Particle.publish("I2C sent", String(x), 60, PRIVATE);
+    Wire.beginTransmission(8); // transmit to device #9
+    
+    // only sends 32 characters no error if more
+    myMasterOut= "12345678901234567890123456789012";  // max length
+    Wire.write(myMasterOut);
+    Wire.endTransmission();
+
+    Particle.publish("I2C Master sent", myMasterOut, 60, PRIVATE);
     delay(1000);  
     
   
-  
-  /*  
-    Wire.requestFrom(9, 1);    // request 6 bytes from slave device #2
+  /*
+   
+    Wire.requestFrom(4, 1);    // from slave #4 request 1 byte
 
     while(Wire.available()){   // slave may send less than requested
         char c = Wire.read();    // receive a byte as character
 
-         Particle.publish("I2C sent from slave", String(c), 60, PRIVATE);
+         Particle.publish("I2C received from slave", String(c), 60, PRIVATE);
          delay(1000);
     }
+ */   
     
-    */
     
 }
 
