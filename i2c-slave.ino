@@ -1,11 +1,20 @@
-uint8_t data[8];
+//uint8_t data[8];
 int idx;
+//char myIn[8];
+//String myOut = "____________________";
+String myOut = "________________________________";
 
 void receiveEvent(int numOfBytes) {
-    idx = 0;
+    idx = -1;
     while (Wire.available()) { 
-        data[idx++] = (uint8_t)Wire.read();       
-  } 
+        idx ++;
+       // data[idx++] = (uint8_t)Wire.read();
+         //myIn[idx] = (char)Wire.read();  
+         //char wow = (char)Wire.read();  
+       //myOut.setCharAt(idx, myIn[idx]);
+       
+        myOut.setCharAt(idx, (char)Wire.read() );  
+    } 
 }
 
 
@@ -19,19 +28,15 @@ void setup() {
 
 void loop() {            
     Particle.publish("I2C received",String(idx),60,PRIVATE);
-        delay(2000);
+        delay(10000);
     if (idx != 0) {
         digitalWrite(D7,HIGH);
-        //Serial.print("RX (");
-       // Serial.print(idx);
-        //Serial.print("): ");
 
-        for(int i=0;i<idx;i++) {
-           //Serial.println(data[i],HEX);  
-        }
         
-            Particle.publish("I2C data",String(data[0])+String(data[1])+String(data[2])+String(data[3])+String(data[4])+String(data[5])+String(data[6])+String(data[7]),60,PRIVATE);
-            delay(2000);
+            //Particle.publish("I2C data",String(myIn[0])+String(myIn[1])+String(myIn[2])+String(myIn[3])+String(myIn[4]),60,PRIVATE);
+            //delay(2000);  
+            Particle.publish("I2C data better",String(myOut),60,PRIVATE);
+            delay(1000);
         idx = 0;
         digitalWrite(D7,LOW);
     }
