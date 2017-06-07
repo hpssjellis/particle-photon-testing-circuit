@@ -3,7 +3,9 @@
 // MIT license
 
 
-int x = 2;
+
+int idx, x;
+String mySlaveIn = "________________________________"; // Note: 32 chars Max string read 
 
 
 String Serial_uART  = "Bad";
@@ -20,6 +22,15 @@ void setup() {
     // connect GND to GND
     // on Master TX to slave RX
     // On Master RX to slave TX
+
+
+    // Photon I2C setup
+    // GND master to GND slave
+    // D0 (SDA = data) on master to D0 on slave
+    // D1 (SCL = clock) on Master to D1 on slave
+    // pullup 470 k ohm resistor from D0 to 3V3
+    // pullup 470 k ohm resistor from D1 to 3V3
+    
     
     
     // following declared in setup
@@ -31,14 +42,15 @@ void setup() {
 //    delay(1000);
     
     
-    Wire.begin(4);   // label this slave as # 9
+    Wire.begin(8);   // label this slave as # 9
     Wire.onReceive(receiveEvent);
     
     
     // Attach a function to trigger when something is received.
-   // Wire.onRequest(requestEvent);
-  //  Particle.publish("I2C Wire started", "On D0 (SDA) and D1 (SCL)", 60, PRIVATE);
-   // delay(1000);
+
+   
+    Particle.publish("I2C Wire started", "On D0 (SDA) and D1 (SCL)", 60, PRIVATE);
+    delay(1000);
     
 
     
@@ -47,28 +59,32 @@ void setup() {
 
 
 void receiveEvent(int bytes){
-    x = (int)Wire.read();    // read one character from the I2C
-    
-   // Particle.publish("I2C activated", String(x), 60, PRIVATE);
-    //Particle.publish("I2C sent from master", String(x), 60, PRIVATE);
-    //delay(1000);
-
+    idx = 0;
+    while (Wire.available()) { 
+        mySlaveIn.setCharAt(idx, (char)Wire.read() );  
+        idx ++;
+    } 
 }
 
 
-/*
+
+
+
+void requestEvent2() {
+    Wire.write('H');         // respond with message of 6 bytes as expected by master
+    // careful what code you put here!
+}
+
 
 
 void requestEvent() {
-    Wire.write('C');         // respond with message of 6 bytes as expected by master
-  
-    Particle.publish("I2C sent to master a", String('C'), 60, PRIVATE);
-    delay(1000);
+    Wire.write('F');         // respond with message of 6 bytes as expected by master
+    // careful what code you put here!
 }
 
 
 
-*/
+
 
 
 void myUART(){
@@ -104,15 +120,17 @@ void myI2C(){
     // Schematic needs lines from D0, D1
     
    //If value received is 0 blink LED for 200 ms
-    if (x == 0) {
-        Particle.publish("I2C working", "sent a 0", 60, PRIVATE);
-    }
+
   //If value received is 3 blink LED for 400 ms
     if (x == 3) {
+        Wire.onRequest(requestEvent);
         Particle.publish("I2C working", "sent a 3", 60, PRIVATE);
     }   
     
-   delay(1000); 
+    Particle.publish("I2C ??", mySlaveIn , 60, PRIVATE);
+
+   
+   delay(10000); 
     
 }
 
