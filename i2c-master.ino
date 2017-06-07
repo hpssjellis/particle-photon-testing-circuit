@@ -1,4 +1,5 @@
 uint8_t val = 0;
+String myString ;
 
 void setup() {
     Wire.begin();
@@ -6,16 +7,19 @@ void setup() {
 }
 
 void loop() {
-    delay(1000);
+    delay(10000);
     digitalWrite(D7,HIGH);
     Wire.beginTransmission(8);
-    Wire.write(&val,1);
+    //Wire.write(&val,1);
+    myString = "12345678901234567890123456789012";
+    Wire.write(myString);
+
     Wire.endTransmission();
     val++;
     delay(20);
     digitalWrite(D7,LOW);
     
-        Particle.publish("I2C sent",String(val),60,PRIVATE);
-    delay(1000);
+    Particle.publish("I2C sent", myString ,60,PRIVATE);
+    
     
 }
