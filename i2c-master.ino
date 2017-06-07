@@ -1,16 +1,21 @@
-// Include the required Wire library for I2C<br>#include 
-int x = 0;
+uint8_t val = 0;
+
 void setup() {
-  // Start the I2C Bus as Master
-  Wire.begin(); 
+    Wire.begin();
+    pinMode(D7,OUTPUT);
 }
+
 void loop() {
-  Wire.beginTransmission(9); // transmit to device #9
-  Wire.write(x);              // sends x 
-  Wire.endTransmission();    // stop transmitting
-  x++; // Increment x
-  if (x > 5) x = 0; // `reset x once it gets 6
-  
-        Particle.publish("I2C", String(x), 60, PRIVATE);
-  delay(2000);
+    delay(1000);
+    digitalWrite(D7,HIGH);
+    Wire.beginTransmission(8);
+    Wire.write(&val,1);
+    Wire.endTransmission();
+    val++;
+    delay(20);
+    digitalWrite(D7,LOW);
+    
+        Particle.publish("I2C sent",String(val),60,PRIVATE);
+    delay(1000);
+    
 }
