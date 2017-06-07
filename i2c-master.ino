@@ -1,4 +1,4 @@
-uint8_t val = 0;
+
 String myString ;
 
 void setup() {
@@ -8,18 +8,18 @@ void setup() {
 
 void loop() {
     delay(10000);
+    
     digitalWrite(D7,HIGH);
     Wire.beginTransmission(8);
-    //Wire.write(&val,1);
-    myString = "12345678901234567890123456789012";
+    
+    // only sends 32 characters but you can try more
+    myString = "123456789012345678901234567890123456";
     Wire.write(myString);
-
     Wire.endTransmission();
-    val++;
+
     delay(20);
     digitalWrite(D7,LOW);
-    
-    Particle.publish("I2C sent", myString ,60,PRIVATE);
+    Particle.publish("I2C sent, wait 10 (s)", myString ,60,PRIVATE);
     
     
 }
