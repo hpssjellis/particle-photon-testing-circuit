@@ -47,7 +47,9 @@ void setup() {
 
 
 void receiveEvent(int bytes){
-    x = Wire.read();    // read one character from the I2C
+    x = (int)Wire.read();    // read one character from the I2C
+    
+   // Particle.publish("I2C activated", String(x), 60, PRIVATE);
     //Particle.publish("I2C sent from master", String(x), 60, PRIVATE);
     //delay(1000);
 
