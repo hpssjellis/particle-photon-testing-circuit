@@ -1,28 +1,40 @@
-// Include the required Wire library for I2C<br>#include <Wire.h>
-int LED = D7;
-int x = 0;
+uint8_t data[8];
+int idx;
+
+void receiveEvent(int numOfBytes) {
+    idx = 0;
+    while (Wire.available()) { 
+        data[idx++] = (uint8_t)Wire.read();       
+  } 
+}
+
+
 void setup() {
-  // Define the LED pin as Output
-  pinMode (LED, OUTPUT);
-  // Start the I2C Bus as Slave on address 9
-  Wire.begin(9); 
-  // Attach a function to trigger when something is received.
-  Wire.onReceive(receiveEvent);
+   // Serial.begin(9600);
+    Wire.begin(8);
+    Wire.onReceive(receiveEvent);
+    pinMode(D7,OUTPUT);
+
 }
-void receiveEvent(int bytes) {
-  x = Wire.read();    // read one character from the I2C
-}
-void loop() {
-  //If value received is 0 blink LED for 200 ms
-  if (x == 0) {
-  
-        Particle.publish("I2C", String(x), 60, PRIVATE);
-    delay(2000);
-  }
-  //If value received is 3 blink LED for 400 ms
-  if (x == 3) {
-  
-        Particle.publish("I2C", String(x), 60, PRIVATE);
-    delay(2000);
-  }
+
+void loop() {            
+    Particle.publish("I2C received",String(idx),60,PRIVATE);
+        delay(2000);
+    if (idx != 0) {
+        digitalWrite(D7,HIGH);
+        //Serial.print("RX (");
+       // Serial.print(idx);
+        //Serial.print("): ");
+
+        for(int i=0;i<idx;i++) {
+           //Serial.println(data[i],HEX);  
+        }
+        
+            Particle.publish("I2C data",String(data[0])+String(data[1])+String(data[2])+String(data[3])+String(data[4])+String(data[5])+String(data[6])+String(data[7]),60,PRIVATE);
+            delay(2000);
+        idx = 0;
+        digitalWrite(D7,LOW);
+    }
+
+
 }
