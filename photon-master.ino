@@ -23,7 +23,7 @@ String myMasterOut, myMasterIn;
     // pullup 470 k ohm resistor from D1 to 3V3
 
 void setup() {
-   // Serial1.begin(9600);  // uART start TX, RX
+    Serial1.begin(9600);  // uART start TX, RX
     Wire.begin();         // I2C start DO, D1 
 
 }
@@ -35,7 +35,7 @@ void myUart() {
         Serial1.write('A');
         Particle.publish("uART Serial working", "Sent an A", 60, PRIVATE);
         delay(1000);
-        delay(1000);
+
     }
         if (Serial1.available() > 0) {
         int incomingFromSlave = Serial1.read();
@@ -94,8 +94,9 @@ void mySPI(){
 
 
 void loop(){
-//    myUart();
+    myUart();
     myI2C();
+   
  //   mySPI();
  delay(10000);
     
