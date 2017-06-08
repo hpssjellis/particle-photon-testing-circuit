@@ -64,13 +64,9 @@ void receiveEvent(int bytes){
     while (Wire.available()) { 
         mySlaveIn += 'H';   // for setCharAt to work the string needs a character to replace
         mySlaveIn.setCharAt(idx, (char)Wire.read() );    // update string
-
         idx ++;
     } 
 }
-
-
-
 
 
 void requestEvent2() {
@@ -79,15 +75,10 @@ void requestEvent2() {
 }
 
 
-
 void requestEvent() {
     Wire.write('F');         // respond with message of 6 bytes as expected by master
     // careful what code you put here!
 }
-
-
-
-
 
 
 void myUART(){
@@ -119,27 +110,14 @@ void myUART(){
 
 
 void myI2C(){
-    // connect second photon and run program using console
-    // Schematic needs lines from D0, D1
-    
-   //If value received is 0 blink LED for 200 ms
 
-  //If value received is 3 blink LED for 400 ms
-  
-  //  Particle.publish("I2C before, x="+String(x), mySlaveIn , 60, PRIVATE);
-   // delay(1000);
-   // mySlaveIn.replace("_", " ");  //get rid of the remaining characters "_________" using a null char
-    //mySlaveIn.remove(mySlaveIn.indexOf("_"));
-  // mySlaveIn.remove(x+1);
-   
-    if (mySlaveIn == "FRed") {
+    if (mySlaveIn == "I2C from Master") {
         Wire.onRequest(requestEvent);
-        Particle.publish("I2C working", mySlaveIn, 60, PRIVATE);
+        Particle.publish("I2C working, Sent", mySlaveIn, 60, PRIVATE);
     }   
-    Particle.publish("I2C after "+String( mySlaveIn.length()), mySlaveIn , 60, PRIVATE);
+    Particle.publish("I2C String length="+String( mySlaveIn.length()), mySlaveIn , 60, PRIVATE);
 
-   
-   delay(10000); 
+   delay(2000); 
     
 }
 
