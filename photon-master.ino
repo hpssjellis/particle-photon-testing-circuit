@@ -56,12 +56,14 @@ void myUart() {
 
 
 
+
 void myI2C(){
     
     Wire.beginTransmission(8); // transmit to device #9
     
-    // only sends 32 characters no error if more
-    myMasterOut= "12345678901234567890123456789012";  // max length
+    // only sends 32 characters but you can try more
+   // myMasterOut= "12345678901234567890123456789012";  // max length
+    myMasterOut= "I2C from Master";  // max length
     Wire.write(myMasterOut);
     Wire.endTransmission();
 
@@ -69,7 +71,7 @@ void myI2C(){
     delay(1000);  
     
   
-  /*
+ /* 
    
     Wire.requestFrom(4, 1);    // from slave #4 request 1 byte
 
@@ -97,7 +99,7 @@ void loop(){
 //    myUart();
     myI2C();
  //   mySPI();
- delay(3000);
+ delay(10000);
     
     
 }
