@@ -36,17 +36,16 @@ void setup() {
     // following declared in setup
 
    
-//    Serial1.begin(9600);  // only if using this photon as a slave?
+    Serial1.begin(9600);  // only if using this photon as a slave?
     
-//    Particle.publish("uART Serial1 started", "On TX and RX", 60, PRIVATE);
-//    delay(1000);
+    Particle.publish("uART Serial1 started", "On TX and RX", 60, PRIVATE);
+    delay(1000);
     
     
     Wire.begin(8);   // label this slave as # 9
     Wire.onReceive(receiveEvent);
     
     
-    // Attach a function to trigger when something is received.
 
    
     Particle.publish("I2C Wire started", "On D0 (SDA) and D1 (SCL)", 60, PRIVATE);
@@ -128,7 +127,7 @@ void mySPI(){
 
 void loop() {
 
-  //  myUART();   // move to photon slave.ino 
+    myUART();   // move to photon slave.ino 
 
     myI2C();
 
