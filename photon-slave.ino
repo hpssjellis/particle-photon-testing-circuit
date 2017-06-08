@@ -4,9 +4,9 @@
 
 
 
-int idx, x;
-String mySlaveIn = "________________________________"; // Note: 32 chars Max string read 
 
+
+String mySlaveIn;
 
 String Serial_uART  = "Bad";
 String Serial_I2C   = "Bad";
@@ -59,9 +59,12 @@ void setup() {
 
 
 void receiveEvent(int bytes){
-    idx = 0;
+    int idx = 0;
+    mySlaveIn = "";
     while (Wire.available()) { 
-        mySlaveIn.setCharAt(idx, (char)Wire.read() );  
+        mySlaveIn += 'H';   // for setCharAt to work the string needs a character to replace
+        mySlaveIn.setCharAt(idx, (char)Wire.read() );    // update string
+
         idx ++;
     } 
 }
@@ -122,12 +125,18 @@ void myI2C(){
    //If value received is 0 blink LED for 200 ms
 
   //If value received is 3 blink LED for 400 ms
-    if (x == 3) {
+  
+  //  Particle.publish("I2C before, x="+String(x), mySlaveIn , 60, PRIVATE);
+   // delay(1000);
+   // mySlaveIn.replace("_", " ");  //get rid of the remaining characters "_________" using a null char
+    //mySlaveIn.remove(mySlaveIn.indexOf("_"));
+  // mySlaveIn.remove(x+1);
+   
+    if (mySlaveIn == "FRed") {
         Wire.onRequest(requestEvent);
-        Particle.publish("I2C working", "sent a 3", 60, PRIVATE);
+        Particle.publish("I2C working", mySlaveIn, 60, PRIVATE);
     }   
-    
-    Particle.publish("I2C ??", mySlaveIn , 60, PRIVATE);
+    Particle.publish("I2C after "+String( mySlaveIn.length()), mySlaveIn , 60, PRIVATE);
 
    
    delay(10000); 
