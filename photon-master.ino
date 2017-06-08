@@ -4,7 +4,7 @@
 
 
 int x = 4;
-String myMasterOut;
+String myMasterOut, myMasterIn;
 
     
     // Master working photon 
@@ -62,27 +62,25 @@ void myI2C(){
     Wire.beginTransmission(8); // transmit to device #9
     
     // only sends 32 characters but you can try more
-   // myMasterOut= "12345678901234567890123456789012";  // max length
+    // myMasterOut= "12345678901234567890123456789012";  // max length
     myMasterOut= "I2C from Master";  // max length
     Wire.write(myMasterOut);
     Wire.endTransmission();
 
     Particle.publish("I2C Master sent", myMasterOut, 60, PRIVATE);
     delay(1000);  
-    
-  
- /* 
-   
-    Wire.requestFrom(4, 1);    // from slave #4 request 1 byte
 
+    Wire.requestFrom(8, 14);    // from slave #8 request MAX 32 or fewer bytes
+    
+    int idx = 0;
+    myMasterIn = "";
     while(Wire.available()){   // slave may send less than requested
-        char c = Wire.read();    // receive a byte as character
-
-         Particle.publish("I2C received from slave", String(c), 60, PRIVATE);
-         delay(1000);
+        myMasterIn += 'H';   // for setCharAt to work the string needs a character to replace
+        myMasterIn.setCharAt(idx, (char)Wire.read() );    // update string
+        idx ++;
     }
- */   
-    
+
+      Particle.publish("I2C from slave, length = "+String(myMasterIn.length()), myMasterIn, 60, PRIVATE);
     
 }
 
