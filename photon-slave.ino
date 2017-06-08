@@ -69,14 +69,9 @@ void receiveEvent(int bytes){
 }
 
 
-void requestEvent2() {
-    Wire.write('H');         // respond with message of 6 bytes as expected by master
-    // careful what code you put here!
-}
-
 
 void requestEvent() {
-    Wire.write('F');         // respond with message of 6 bytes as expected by master
+    Wire.write("I2C from Slave");         // respond with message of 6 bytes as expected by master
     // careful what code you put here!
 }
 
@@ -113,7 +108,7 @@ void myI2C(){
 
     if (mySlaveIn == "I2C from Master") {
         Wire.onRequest(requestEvent);
-        Particle.publish("I2C working, Sent", mySlaveIn, 60, PRIVATE);
+        Particle.publish("I2C working. Received", mySlaveIn, 60, PRIVATE);
     }   
     Particle.publish("I2C String length="+String( mySlaveIn.length()), mySlaveIn , 60, PRIVATE);
 
