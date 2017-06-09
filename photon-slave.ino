@@ -75,26 +75,36 @@ void requestEvent() {
 }
 
 
+
+String incomingFromMaster;
+int idu;
 void myUART(){
     // connect second photon and run program using console
     // Schematic needs lines from TX, TR the other for each photon
     
+    int idu = 0;
+    incomingFromMaster = "";
 
-
-    if (Serial1.available() > 0) {
-        
-        Particle.publish("Serial1 Available", "---", 60, PRIVATE);
-        delay(1000);
-        int incomingFromMaster = Serial1.read();
-        if (incomingFromMaster == 'A') {
-            Serial_uART = "Good";
-            Particle.publish("Serial1 working A = 65", String(incomingFromMaster), 60, PRIVATE);
-            Serial1.write('B');
-            delay(1000);            
+   // if (Serial1.available() > 0) {
+     while(Serial1.available()){   
+       // Particle.publish("Serial1 Available", "---", 60, PRIVATE);
+       // delay(1000);
+        //int incomingFromMaster = Serial1.read();
+        incomingFromMaster += 'H';   // for setCharAt to work the string needs a character to replace
+        incomingFromMaster.setCharAt(idu, (char)Serial1.read() );    // update string
+        idu ++;
+     }  
+    //}
+    
+    if (incomingFromMaster == "Fred") {
+        Serial_uART = "Good";
+        Particle.publish("Serial1 working ", String(incomingFromMaster), 60, PRIVATE);
+        Serial1.write("TOM");
+        delay(1000);            
             
-       } else {Serial_uART = "Bad";}
+      } else {Serial_uART = "Bad";}
        
-    }
+       
     Particle.publish("uART Serial is", Serial_uART, 60, PRIVATE);
     delay(1000); 
     
