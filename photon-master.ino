@@ -28,29 +28,42 @@ void setup() {
 
 }
 
+String incomingFromSlave;
+
+
 void myUart() {
   
       
     if (Serial1.available() > 0) {
-        Serial1.write('A');
+        Serial1.write("Fred");
         Particle.publish("uART Serial working", "Sent an A", 60, PRIVATE);
-        delay(1000);
+       // delay(1000);
 
-    }
-        if (Serial1.available() > 0) {
-        int incomingFromSlave = Serial1.read();
-        if (incomingFromSlave == 'B') {  
-            Particle.publish("uART Serial working B = 66", String(incomingFromSlave), 60, PRIVATE);
+
+    
+    int idu = 0;
+    incomingFromSlave = "";
+
+
+     while(Serial1.available()){   
+       // Particle.publish("Serial1 Available", "---", 60, PRIVATE);
+       // delay(1000);
+        //int incomingFromMaster = Serial1.read();
+        incomingFromSlave += 'H';   // for setCharAt to work the string needs a character to replace
+        incomingFromSlave.setCharAt(idu, (char)Serial1.read() );    // update string
+        idu ++;
+     }  
+    }   
+        
+        
+        if (incomingFromSlave == "TOM") {  
+            Particle.publish("uART Serial working ", String(incomingFromSlave), 60, PRIVATE);
             delay(1000);
         }  else {
              Particle.publish("Serial working", "No returned value", 60, PRIVATE);
              delay(1000);
         }
-    } else  {
-            Particle.publish("Serial Not working", "---", 60, PRIVATE);
-            delay(1000);
-        }
-    delay(1000);
+  
     
 }
 
@@ -98,7 +111,7 @@ void loop(){
     myI2C();
    
  //   mySPI();
- delay(10000);
+ delay(4000);
     
     
 }
