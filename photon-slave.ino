@@ -16,6 +16,8 @@ String Serial_SPI   = "Bad";
 
 
 void setup() {
+    
+    //NOTE SLAVE NEEDS TO BE POWERED UP AFTER THE MASTER, OR REPOWER SLAVE  
 
     // Master working photon 
     // Slave unknown photon
