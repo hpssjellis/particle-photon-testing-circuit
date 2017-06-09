@@ -6,6 +6,8 @@
 int x = 4;
 String myMasterOut, myMasterIn;
 
+
+    // NOTE: MASTER NEEDS TO BE POWERED UP BEFORE SLAVE, OR RE-POWER SLAVE
     
     // Master working photon 
     // Slave unknown photon
