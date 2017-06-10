@@ -15,6 +15,7 @@ uART  (RX-TX, GND)  Serial  Communication Breadboard Diagram
 
 
 I2C (D0, D1 with Pullups, GND) Serial  Communication Breadboard Diagram
+
 ![](I2C-only3.png)
 
 
@@ -22,6 +23,7 @@ I2C (D0, D1 with Pullups, GND) Serial  Communication Breadboard Diagram
 
 
 SPI (A2-A5, GND) Serial Communication Breadboard Diagram
+
 ![](spi-only3.png)
 
 
