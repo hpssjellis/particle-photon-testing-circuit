@@ -5,6 +5,8 @@ particle-photon-testing-curcuit
 
 Making a Particle-Photon-Testing breadboard and perhaps a PCB to go along with it.
 
+Follow the blog at https://community.particle.io/t/photon-test-breakout-board/33222
+
 
 
 Update June 10th, 2017
