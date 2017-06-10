@@ -9,6 +9,8 @@ Making a Particle-Photon-Testing breadboard and perhaps a PCB to go along with i
 
 Update June 10th, 2017
 
+The Photon master and slave is working for I2C and uART. I am having trouble with SPI in finding good example code. Note that for both I2C and uART I have found a way to read Strings as Strings not char arrays hopefully making things as simple as possible for my students. Nto sure if I will be able to do the same for SPI.
+
 The photon-alone.ino is ready to go. Steps through every Photon GPIO pin and tests it against the neighboring pin or DAC pin. I hope to make a PCB board but if you can't wait you can wire up the breadboard below.
 
 ![](photon-alone.png)
