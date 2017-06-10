@@ -16,7 +16,8 @@ Note: For uART only Rx connects to TX and Tx connects to RX
 
 
 
-I2C (D0, D1 with Pullups, GND) Serial  Communication Breadboard Diagram
+I2C (D0, D1 with 470 ohm Pullups to 3V3, GND) Serial  Communication Breadboard Diagram
+Note: If connecting other I2C may want to pullup to 5V
 
 ![](I2C-only5.png)
 
