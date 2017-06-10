@@ -9,7 +9,7 @@ Making a Particle-Photon-Testing breadboard and perhaps a PCB to go along with i
 
 Update June 10th, 2017
 
-The photon-alone.ino is ready to go. Steps through every Photon GPIO pin and tests it against the neighboring pin or DAC pin. I hope to make aPCB board but if you can't wait you can wire up the breadboard below.
+The photon-alone.ino is ready to go. Steps through every Photon GPIO pin and tests it against the neighboring pin or DAC pin. I hope to make a PCB board but if you can't wait you can wire up the breadboard below.
 
 ![](photon-alone.png)
 
