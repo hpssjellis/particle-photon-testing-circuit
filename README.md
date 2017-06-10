@@ -23,7 +23,7 @@ Note: Use at your own risk, presently this software runs with a fully working Ph
 
 Update June 6, 2017
 
-Gave up on the LED's, peekay made the suggestion to test PWM using pulseIn() works great, so expanding the DAC pins to test all analogReads.
+Gave up on the LED's, Peekay123 made the suggestion to test PWM using pulseIn() works great, so expanding the DAC pins to test all analogReads. See his repositories at https://github.com/pkourany
 
 
 Update June 4, 2017
