@@ -18,7 +18,7 @@ Note: For uART only Rx connects to TX and Tx connects to RX
 
 I2C (D0, D1 with Pullups, GND) Serial  Communication Breadboard Diagram
 
-![](I2C-only3.png)
+![](I2C-only5.png)
 
 
 
