@@ -1,3 +1,8 @@
+// SPI-Master.ino
+// By Jeremy Ellis
+// MIT license
+// Use at your own risk!
+
 
 void slaveSelect(uint8_t state);
 void slaveCallback();
