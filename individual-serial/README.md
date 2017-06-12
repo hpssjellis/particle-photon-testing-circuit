@@ -11,7 +11,7 @@ For all images assume the Master is on top and the slave below, but from a conne
 uART  (RX-TX, GND)  Serial  Communication Breadboard Diagram
 Note: For uART only Rx connects to TX and Tx connects to RX
 
-![](uart-only3.png)
+![](uart-breadboard.png)
 
 
 
@@ -19,7 +19,7 @@ Note: For uART only Rx connects to TX and Tx connects to RX
 I2C (D0, D1 with 470 ohm Pullups to 3V3, GND) Serial  Communication Breadboard Diagram
 Note: If connecting other I2C may want to pullup to 5V
 
-![](I2C-only5.png)
+![](I2C-breadboard.png)
 
 
 
@@ -27,7 +27,7 @@ Note: If connecting other I2C may want to pullup to 5V
 
 SPI (A2-A5, GND) Serial Communication Breadboard Diagram
 
-![](spi-only3.png)
+![](spi-breadboard.png)
 
 
 
