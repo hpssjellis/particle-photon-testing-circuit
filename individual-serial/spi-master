@@ -13,6 +13,8 @@ uint32_t rcvdValues[NUM_VALUES];
 uint32_t sendValues[NUM_VALUES];
 
 String MasterSend = "Hello to Slave";
+String mySlaveSent ;
+
 
 void setup() {
 //	Serial.begin(9600);
@@ -38,7 +40,17 @@ void loop() {
 		digitalWrite(SS_PIN, HIGH);
 	}
 //	Particle.publish("sent", String(sendValues[0],DEC) + ", "+String(sendValues[1],DEC), 60, PRIVATE);
-    Particle.publish("sent from master", MasterSend , 60, PRIVATE);
+    mySlaveSent = "";
+   	for(size_t ii = 0; ii < NUM_VALUES; ii++) {
+
+		mySlaveSent  += 'H';   // for setCharAt to work the string needs a character to replace
+        mySlaveSent.setCharAt(ii, (char)rcvdValues[ii] );    // update string
+
+		
+	} 
+    
+    
+    Particle.publish( "Master sent "+MasterSend, "Getting from Slave "+mySlaveSent  , 60, PRIVATE);
 
 	delay(9000);
 }
