@@ -1,4 +1,4 @@
-// SPI-Master.ino
+// SPI-Slave.ino
 // By Jeremy Ellis
 // MIT license
 // Use at your own risk!
