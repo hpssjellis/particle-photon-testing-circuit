@@ -1,8 +1,3 @@
-#include "Particle.h"
-
-SYSTEM_THREAD(ENABLED);
-
-SerialLogHandler logHandler;
 
 void slaveSelect(uint8_t state);
 void slaveCallback();
@@ -18,7 +13,6 @@ uint32_t rcvdValues[NUM_VALUES];
 uint32_t sendValues[NUM_VALUES];
 
 void setup() {
-//	Serial.begin(9600);
 
 	for(size_t ii = 0; ii < NUM_VALUES; ii++) {
 		sendValues[ii] = (byte)sentToMaster[ii];
@@ -32,19 +26,15 @@ void loop() {
 	if (gotValue) {
 		gotValue = false;
         gotFromMaster = "";
-	//	Log.info("rcvdValues[0]=0x%lx rcvdValues[1]=0x%lx", rcvdValues[0], rcvdValues[1]);
 
 		for(size_t ii = 0; ii < NUM_VALUES; ii++) {
-
 		    gotFromMaster  += 'H';   // for setCharAt to work the string needs a character to replace
             gotFromMaster.setCharAt(ii, (char)rcvdValues[ii] );    // update string
 
-		
 		}
 
 	 	Particle.publish( "Slave sent "  + sentToMaster, "Getting from Master " + gotFromMaster, 60, PRIVATE);
 	    delay(2000);   
-
 
 	} 
 }
