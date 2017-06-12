@@ -11,6 +11,7 @@ const int SS_PIN = A2;
 const size_t NUM_VALUES = 32;
 
 bool gotValue = false;
+String sentToMaster="Hi from slave";
 String gotFromMaster;
 
 uint32_t rcvdValues[NUM_VALUES];
@@ -20,7 +21,7 @@ void setup() {
 //	Serial.begin(9600);
 
 	for(size_t ii = 0; ii < NUM_VALUES; ii++) {
-		sendValues[ii] = 0;
+		sendValues[ii] = (byte)sentToMaster[ii];
 	}
 
 	SPI.onSelect(slaveSelect);
@@ -34,17 +35,14 @@ void loop() {
 	//	Log.info("rcvdValues[0]=0x%lx rcvdValues[1]=0x%lx", rcvdValues[0], rcvdValues[1]);
 
 		for(size_t ii = 0; ii < NUM_VALUES; ii++) {
-		//	sendValues[ii] = rcvdValues[ii];
+
 		    gotFromMaster  += 'H';   // for setCharAt to work the string needs a character to replace
             gotFromMaster.setCharAt(ii, (char)rcvdValues[ii] );    // update string
-		    //gotFromMaster[ii] = (char)rcvdValues[ii];
-		              //     myIncoming += 'H';   // for setCharAt to work the string needs a character to replace
-          //      myIncoming.setCharAt(i, (char)SPI.transfer(val) );    // update string
-          // }
+
 		
 		}
 
-	 	Particle.publish("getting",gotFromMaster, 60, PRIVATE);
+	 	Particle.publish( "Slave sent "  + sentToMaster, "Getting from Master " + gotFromMaster, 60, PRIVATE);
 	    delay(2000);   
 
 
