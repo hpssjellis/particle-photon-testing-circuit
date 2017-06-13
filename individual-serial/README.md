@@ -2,6 +2,11 @@ Testing area for individual serial communication between two photons
 
 
 
+Update June12, 2017
+
+All individual serial communication methods for the particle.io Photon seem to be working.
+
+
 Update Jun10, 2017
 
 Need to tweak most files, I2C working, UART not sperated yet. SPI not yet working.
