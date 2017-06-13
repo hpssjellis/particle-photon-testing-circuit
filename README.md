@@ -12,7 +12,7 @@ update June 13, 2017
 
 Just started working on the full photon master slave uART, I2C, SPI check breadboard
 
-![](photon-master-slave01-02)
+![](photon-master-slave01-02.png)
 
 Still have to include SPI in the main programs.
 
