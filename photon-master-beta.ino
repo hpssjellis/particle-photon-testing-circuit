@@ -32,10 +32,32 @@ String spiMasterSent   = "Bad";
 
 
 
+// uART gloabl variables
+int x = 4;
+String myUartMasterOut = "From uART Master";
+String myUARTSlaveIn;
+        
 
 
 
+// I2C Global Variables
+int idx;
+String myI2CSlaveIn; // Note: 32 chars Max string read 
+String myI2CMasterOut = "I2C from Master"; 
 
+
+
+// Global SPI Variables
+const unsigned long SEND_PERIOD_MS = 10000;
+const int SS_PIN = A2;    // should be defined beofre setup
+const size_t NUM_VALUES = 32;
+
+unsigned long lastSend = 0;
+uint32_t rcvdValues[NUM_VALUES];
+uint32_t sendValues[NUM_VALUES];
+
+String myMasterSent = "Hello to Slave";
+String mySlaveSent ;
 
 
 
@@ -44,16 +66,11 @@ String spiMasterSent   = "Bad";
 void setup() {
     Serial1.begin(9600);  // uART start TX, RX
     Wire.begin();         // I2C start DO, D1 
-    SPI.begin(SPI_MODE_MASTER, A2);    //const int SS_PIN = A2;  // should be defined above
+    SPI.begin(SPI_MODE_MASTER, SS_PIN);    // SPI start A2-A5
 }
+    
 
 
-
-// uART gloabl variables
-int x = 4;
-String myUartMasterOut = "From uART Master";
-String myUARTSlaveIn;
-        
 void myUart() {
   
     if (Serial1.available() > 0) {
@@ -78,11 +95,6 @@ void myUart() {
     
 
 
-
-// I2C Global Variables
-int idx;
-String myI2CSlaveIn; // Note: 32 chars Max string read 
-String myI2CMasterOut = "I2C from Master"; 
 
 void myI2C(){
     
@@ -111,21 +123,32 @@ void myI2C(){
   
 }
 
-// Global SPI Variables
-const unsigned long SEND_PERIOD_MS = 10000;
-const int SS_PIN = A2;    // should be defined beofre setup
-const size_t NUM_VALUES = 32;
-
-unsigned long lastSend = 0;
-uint32_t rcvdValues[NUM_VALUES];
-uint32_t sendValues[NUM_VALUES];
-
-String myMasterSent = "Hello to Slave";
-String mySlaveSent ;
 
 void mySPI(){
     
+  if (millis() - lastSend >= SEND_PERIOD_MS) {
+		lastSend = millis();
+
+		digitalWrite(SS_PIN, LOW);
+
+		for(size_t ii = 0; ii < NUM_VALUES; ii++) {
+			sendValues[ii] = (byte)myMasterSent[ii];
+		}
+		SPI.transfer(sendValues, rcvdValues, NUM_VALUES * sizeof(uint32_t), 0);
+		digitalWrite(SS_PIN, HIGH);
+	}
+    mySlaveSent = "";
+   	for(size_t ii = 0; ii < NUM_VALUES; ii++) {
+
+		mySlaveSent  += 'H';   // for setCharAt to work the string needs a character to replace
+        mySlaveSent.setCharAt(ii, (char)rcvdValues[ii] );    // update string
+		
+	} 
     
+    
+    Particle.publish( "Master sent " + myMasterSent, "Getting from Slave "+ mySlaveSent  , 60, PRIVATE);
+
+	delay(9000);  
     
 }
 
@@ -136,7 +159,7 @@ void loop(){
     myI2C();
     mySPI();
     
- delay(10000);
+    delay(10000);
     
     
 }
