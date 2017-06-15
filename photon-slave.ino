@@ -37,7 +37,7 @@ int idu;
 int idx;
 
 String myI2cMasterIn; // Note: 32 chars Max string read 
-String myI2cSlaveOut = "I2C slave out"; // Note: 32 chars Max string read 
+String myI2cSlaveOut = "I2C slave out."; // Note: 32 chars Max string read 
 
 
 
@@ -120,7 +120,7 @@ void myUART(){
         } 
     }
        
-    Particle.publish("Sent From Slave = " + myUartSlaveOut  , "Received from Master = " + myUartFromMaster, 60, PRIVATE);
+    Particle.publish("uART From Slave = " + myUartSlaveOut  , "uART from Master = " + myUartFromMaster, 60, PRIVATE);
     delay(1000); 
        
 }    
@@ -150,7 +150,7 @@ void requestEvent() {
 
 void myI2C(){
 
-        Particle.publish("I2C slave sent = " + myI2cSlaveOut,"I2C received from Master = " + myI2cMasterIn    ,60,PRIVATE);
+        Particle.publish("I2C slave sent = " + myI2cSlaveOut,"I2C from Master = " + myI2cMasterIn    ,60,PRIVATE);
         delay(5000);
  
 }
@@ -186,7 +186,7 @@ void mySPI(){
 
 		}
 
-	 	Particle.publish( "Slave sent "  + sentToMaster, "Getting from Master " + gotFromMaster, 60, PRIVATE);
+	 	Particle.publish( "SPI Slave sent = "  + sentToMaster, "SPI from Master = " + gotFromMaster, 60, PRIVATE);
 	    delay(2000);   
 
 	}   
