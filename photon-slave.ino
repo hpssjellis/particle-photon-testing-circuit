@@ -119,8 +119,9 @@ void myUART(){
             idu ++;
         } 
     }
-       
-    Particle.publish("uART From Slave = " + myUartSlaveOut  , "uART from Master = " + myUartFromMaster, 60, PRIVATE);
+    
+    if (myUartFromMaster == "From uART Master"){ uArtSlaveSent = "Good"; } else { uArtSlaveSent = "Bad"; }   
+    Particle.publish("uART Slave Sent= " + myUartSlaveOut  , "uART from Master = " + myUartFromMaster, 60, PRIVATE);
     delay(1000); 
        
 }    
@@ -149,9 +150,10 @@ void requestEvent() {
 
 
 void myI2C(){
-
-        Particle.publish("I2C slave sent = " + myI2cSlaveOut,"I2C from Master = " + myI2cMasterIn    ,60,PRIVATE);
-        delay(5000);
+    
+    if (myI2cMasterIn == "I2C from Master"){ i2cSlaveSent  = "Good"; } else { i2cSlaveSent  = "Bad"; }
+    Particle.publish("I2C slave sent = " + myI2cSlaveOut,"I2C from Master = " + myI2cMasterIn    ,60,PRIVATE);
+    delay(5000);
  
 }
 
@@ -186,8 +188,9 @@ void mySPI(){
 
 		}
 
-	 	Particle.publish( "SPI Slave sent = "  + sentToMaster, "SPI from Master = " + gotFromMaster, 60, PRIVATE);
-	    delay(2000);   
+    if (gotFromMaster == "Hello to Slave"){ spiSlaveSent = "Good"; } else { spiSlaveSent  = "Bad"; } 
+	Particle.publish( "SPI Slave sent = "  + sentToMaster, "SPI from Master = " + gotFromMaster, 60, PRIVATE);
+	delay(2000);   
 
 	}   
 }
@@ -205,7 +208,17 @@ void loop() {
     myI2C();
 
     mySPI();
-
+    
+    Particle.publish( "uART Master to Slave",  uArtSlaveSent  ,  60, PRIVATE);
+    delay(2000);
+    
+    Particle.publish( "I2C Master to Slave",  i2cSlaveSent  ,  60, PRIVATE);
+    delay(2000);
+    
+    Particle.publish( "SPI Master To Slave", spiSlaveSent ,  60, PRIVATE);
+    delay(2000);
+    
+    Particle.publish( "10 second wait", "---" ,  60, PRIVATE);    
     delay(10000);
 
 }
