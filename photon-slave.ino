@@ -5,8 +5,6 @@
 // Github   https://github.com/hpssjellis/particle-photon-testing-circuit
 // Use at your own risk!
 
-
-
     
     // Photon to Photon uArt Setup
     // 3V3 Master to 3V3 Slave
@@ -24,13 +22,14 @@
     // pullup 4.7 K ohm resistor from D0 to 3V3
     // pullup 4.7 K ohm resistor from D1 to 3V3
 
-    // Photon to Photon uART Setup
+    // Photon to Photon SPI Setup
     // GND to GND
     // 3V3 to 3V3
     // A2 to A2   SS
     // A3 to A3   SCK
     // A4 to A4   MISO
     // A5 to A5   MOSI
+
 
 
 //uART Global variables
