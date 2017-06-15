@@ -3,6 +3,15 @@
 // MIT license
 // Use at your own risk!
 
+    // Photon to Photon SPI Setup
+    // GND to GND
+    // 3V3 to 3V3
+    // A2 to A2   SS
+    // A3 to A3   SCK
+    // A4 to A4   MISO
+    // A5 to A5   MOSI
+
+
 const unsigned long SEND_PERIOD_MS = 10000;
 const int SS_PIN = A2;
 const size_t NUM_VALUES = 32;
