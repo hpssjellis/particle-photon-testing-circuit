@@ -87,7 +87,7 @@ void myUart() {
         }  
     }   
 
-    Particle.publish("Sent From Master = " + myUartMasterOut , "Received from Slave = " + myUARTSlaveIn, 60, PRIVATE);
+    Particle.publish("Uart From Master = " + myUartMasterOut , "uART from Slave = " + myUARTSlaveIn, 60, PRIVATE);
     delay(4000);
     
 }    
@@ -102,12 +102,12 @@ void myI2C(){
     Wire.write(myI2CMasterOut);  // only sends 32 characters but you can try more
     Wire.endTransmission();
 
-    Particle.publish("I2C Master sent", myI2CMasterOut, 60, PRIVATE);
-    delay(1000);  
+   // Particle.publish("I2C Master sent", myI2CMasterOut, 60, PRIVATE);
+   // delay(1000);  
     
     
 
-    Wire.requestFrom(8, 32);    // from slave #8 request MAX 32 reduce it if you know how many
+    Wire.requestFrom(8, 14);    // from slave #8 request MAX 32 reduce it if you know how many
   
     myI2CSlaveIn = "";
     idx = 0;
@@ -118,7 +118,7 @@ void myI2C(){
     }  
 
     
-    Particle.publish("I2C Master sent =" + myI2CMasterOut,"I2C received from Slave = " + myI2CSlaveIn , 60, PRIVATE);
+    Particle.publish("I2C Master sent = " + myI2CMasterOut,"I2C received from Slave = " + myI2CSlaveIn , 60, PRIVATE);
     delay(5000);   
   
 }
@@ -146,7 +146,7 @@ void mySPI(){
 	} 
     
     
-    Particle.publish( "Master sent " + myMasterSent, "Getting from Slave "+ mySlaveSent  , 60, PRIVATE);
+    Particle.publish( "SPI Master sent = " + myMasterSent, "SPI from Slave = "+ mySlaveSent  , 60, PRIVATE);
 
 	delay(9000);  
     
