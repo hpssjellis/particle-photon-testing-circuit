@@ -1,12 +1,15 @@
 particle-photon-testing-curcuit
 ####################
 
-
+USE AT YOUR OWN RISK!
 
 Making a Particle-Photon-Testing breadboard and perhaps a PCB to go along with it.
 
 Follow the blog at https://community.particle.io/t/photon-test-breakout-board/33222
 
+
+Update June14, 2017
+Looks like the serial Master and Slave Photon testing of uART, I2C and SPI serial communication is working. Note that it has to run a coupple of loops until it has tested both way communication.
 
 update June 13, 2017
 
